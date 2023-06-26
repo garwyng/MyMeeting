@@ -16,7 +16,9 @@ import com.openclassrooms.mymeeting.databinding.FragmentMeetingBinding;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class MyMeetingsRecyclerViewAdapter extends RecyclerView
         .Adapter<MyMeetingsRecyclerViewAdapter.ViewHolder> {
@@ -26,6 +28,7 @@ public class MyMeetingsRecyclerViewAdapter extends RecyclerView
     public MyMeetingsRecyclerViewAdapter(List<Meeting> items) {
         mMeetingList = items;
     }
+    static SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy HH:mm", Locale.FRANCE);
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -38,7 +41,7 @@ public class MyMeetingsRecyclerViewAdapter extends RecyclerView
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Meeting meeting = mMeetingList.get(position);
-        holder.hourMeeting.setText(mMeetingList.get(position).getStartDate().toString());
+        holder.hourMeeting.setText(format.format(mMeetingList.get(position).getStartDate().getTime()));
         holder.subjectReu.setText(mMeetingList.get(position).getSubject());
         holder.meetingRoom.setText(mMeetingList.get(position).getRoom().getRoomName());
         holder.meetingGuest.setText(mMeetingList.get(position).getGuests().toString());

@@ -9,4 +9,12 @@
     <string name="add_an_email">add a contact mail</string>
     <string name="write_an_email">write an email</string>
     <string name="delete_mail">delete mail</string>
+    <string name="Day_for_the_meeting">day for the meeting</string>
+    <string name="choose_a_date">Choose a date</string>
+    <string name="set_hours_for_the_meeting">Set hours for the meeting</string>
+    <string name="start">start</string>
+    <string name="stop">stop</string>
+    <string name="enter_a_subject_for_the_meeting">Enter a Subject for the meeting</string>
+    <string name="date_filter">Date Filter</string>
+    <string name="room_filter">Room Filter</string>
 </resources>

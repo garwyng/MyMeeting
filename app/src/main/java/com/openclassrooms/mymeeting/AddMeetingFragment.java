@@ -1,5 +1,8 @@
 package com.openclassrooms.mymeeting;
 
+import static android.R.*;
+import static android.R.layout.*;
+
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.database.DataSetObserver;
@@ -11,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -24,10 +28,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.openclassrooms.mymeeting.controler.MyMeetingApiService;
 import com.openclassrooms.mymeeting.databinding.FragmentAddMeetingBinding;
+import com.openclassrooms.mymeeting.di.DI;
+import com.openclassrooms.mymeeting.models.Meeting;
 import com.openclassrooms.mymeeting.models.Room;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class AddMeetingFragment extends Fragment {
@@ -36,6 +43,13 @@ public class AddMeetingFragment extends Fragment {
     private TimePickerDialog picker;
     private final List<String> mListMails = new ArrayList<>();
     private RecyclerView mRecyclerView;
+    private Date dateStart;
+    private Date dateEnd;
+    private String[] rooms= {"Réunion 1","Réunion 2","Réunion 3","Réunion 4","Réunion 5","Réunion 6","Réunion 7","Réunion 8","Réunion 9","Réunion 10"};
+    private MyMeetingApiService service = DI.getMyMeetingApiService();
+    private List<Meeting> mMeetings = service.getMeetingsList();
+    private String subject;
+    private Room room;
 
     @Override
     public View onCreateView(
@@ -83,6 +97,8 @@ public class AddMeetingFragment extends Fragment {
                             @Override
                             public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
                                 binding.buttonStart.setText(sHour + ":" + sMinute);
+                                dateStart.setHours(sHour);
+                                dateStart.setMinutes(sMinute);
                             }
                         }, hour, minutes, true);
                 picker.show();
@@ -100,6 +116,8 @@ public class AddMeetingFragment extends Fragment {
                             @Override
                             public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
                                 binding.buttonStop.setText(sHour+":"+sMinute);
+                                dateEnd.setHours(sHour);
+                                dateEnd.setMinutes(sMinute);
                             }
                         }, hour, minutes, true);
                 picker.show();
@@ -120,7 +138,8 @@ public class AddMeetingFragment extends Fragment {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                                 binding.editTextDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
-
+                                dateStart = cldr.getTime();
+                                dateEnd = cldr.getTime();
                             }
                         }, year, month, day);
                 pickerDate.show();
@@ -139,59 +158,36 @@ public class AddMeetingFragment extends Fragment {
             }
         });
         Spinner spinner = binding.spinner;
-        Adapter adapter = new Adapter() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), simple_spinner_item, rooms);
+        adapter.setDropDownViewResource(simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void registerDataSetObserver(DataSetObserver observer) {
-                List<Room> roomsList = MyMeetingApiService.getRooms();
-
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = rooms[position];
+                room = new Room(selectedItem);
+                Log.d("selectedPosition", "onItemSelected: "+ selectedItem);
+                Log.d("room", "onItemSelected: "+ room);
             }
 
             @Override
-            public void unregisterDataSetObserver(DataSetObserver observer) {
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
-
+        });
+        binding.EditSendMail.setOnClickListener(new View.OnClickListener() {
             @Override
-            public int getCount() {
-                return 0;
+            public void onClick(View v) {
+                subject = binding.EditSendMail.getText().toString();
             }
-
+        });
+        binding.imageButtonSendMail.setOnClickListener(new View.OnClickListener() {
             @Override
-            public Object getItem(int position) {
-                return null;
-            }
+            public void onClick(View v) {
+                service.getMeetingsList().add(new Meeting(mMeetings.size(),subject,mListMails,room,dateStart,dateEnd));
 
-            @Override
-            public long getItemId(int position) {
-                return 0;
             }
-
-            @Override
-            public boolean hasStableIds() {
-                return false;
-            }
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                return null;
-            }
-
-            @Override
-            public int getItemViewType(int position) {
-                return 0;
-            }
-
-            @Override
-            public int getViewTypeCount() {
-                return 0;
-            }
-
-            @Override
-            public boolean isEmpty() {
-                return false;
-            }
-        };
-
+        });
     }
 
     @Override

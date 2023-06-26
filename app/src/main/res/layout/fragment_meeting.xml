@@ -13,8 +13,8 @@
     <ImageView
         android:id="@+id/item_image_list_reu"
         android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="4dp"
 
@@ -25,10 +25,9 @@
 
     <TextView
         android:id="@+id/item_list_salle"
-        android:layout_width="86dp"
+        android:layout_width="wrap_content"
         android:layout_height="21dp"
         android:layout_margin="4dp"
-        android:layout_marginStart="4dp"
         android:hint="REUNION A"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/item_image_list_reu"
@@ -38,11 +37,12 @@
 
     <TextView
         android:id="@+id/item_list_heure"
-        android:layout_width="56dp"
+        android:layout_width="wrap_content"
         android:layout_height="21dp"
         android:layout_margin="4dp"
         android:layout_marginStart="20dp"
-        android:hint="14H00"
+        android:hint="14:00"
+        android:inputType="datetime"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/item_image_list_reu"
         app:layout_constraintStart_toEndOf="@+id/item_list_salle"
@@ -51,22 +51,24 @@
 
     <TextView
         android:id="@+id/item_list_objet"
-        android:layout_width="112dp"
+        android:layout_width="wrap_content"
         android:layout_height="21dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginBottom="24dp"
+        android:gravity="center"
         android:hint="Presentation"
-        android:textStyle="bold"
+        android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="@+id/item_image_list_reu"
-        app:layout_constraintStart_toEndOf="@+id/item_list_heure"
-        app:layout_constraintTop_toTopOf="@+id/item_image_list_reu"
-        app:layout_constraintVertical_bias="0.137" />
+        app:layout_constraintStart_toEndOf="@+id/item_image_list_reu"
+        app:layout_constraintTop_toBottomOf="@+id/item_list_salle"
+        app:layout_constraintVertical_bias="0.785" />
 
     <TextView
         android:id="@+id/item_list_guest"
-        android:layout_width="282dp"
+        android:layout_width="wrap_content"
         android:layout_height="24dp"
         android:layout_margin="4dp"
         android:layout_marginStart="24dp"
+        android:layout_marginBottom="4dp"
         android:hint="sebastiencusset@hotmail.com"
         android:textStyle="normal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -74,11 +76,12 @@
 
     <ImageButton
         android:id="@+id/item_list_delete_button"
-        android:layout_width="36dp"
+        android:layout_width="0dp"
         android:layout_height="58dp"
+        android:layout_marginEnd="16dp"
         android:background="@null"
-        android:contentDescription="@string/delete_meeting"
 
+        android:contentDescription="@string/delete_meeting"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

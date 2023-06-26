@@ -7,4 +7,12 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_date_filter"
+        android:orderInCategory="101"
+        android:title="@string/date_filter" />
+    <item
+        android:id="@+id/action_room_filter"
+        android:orderInCategory="102"
+        android:title="@string/room_filter" />
 </menu>
