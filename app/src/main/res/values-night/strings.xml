@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="delete_meeting">delete meeting</string>
+    <string name="image_meeting">image meeting room</string>
+    <string name="meeting_list">meeting list</string>
+    <string name="add_new_meeting">add new meeting</string>
+    <string name="send_invitation">send invitation</string>
+    <string name="select_room">select a meeting room</string>
+    <string name="add_an_email">add a contact mail</string>
+    <string name="write_an_email">write an email</string>
+    <string name="delete_mail">delete mail</string>
+</resources>
