@@ -1,11 +1,7 @@
 package com.openclassrooms.mymeeting;
 
-import static android.R.*;
-import static android.R.layout.*;
-
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,13 +9,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -29,27 +21,28 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.openclassrooms.mymeeting.controler.MyMeetingApiService;
 import com.openclassrooms.mymeeting.databinding.FragmentAddMeetingBinding;
 import com.openclassrooms.mymeeting.di.DI;
+import com.openclassrooms.mymeeting.events.FilterRoomEvent;
 import com.openclassrooms.mymeeting.models.Meeting;
-import com.openclassrooms.mymeeting.models.Room;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-public class AddMeetingFragment extends Fragment {
+public class AddMeetingFragment extends Fragment implements RoomListDialogFragment.OnRoomSelectedListener{
 
     private FragmentAddMeetingBinding binding;
     private TimePickerDialog picker;
     private final List<String> mListMails = new ArrayList<>();
     private RecyclerView mRecyclerView;
-    private Date dateStart;
-    private Date dateEnd;
-    private String[] rooms= {"Réunion 1","Réunion 2","Réunion 3","Réunion 4","Réunion 5","Réunion 6","Réunion 7","Réunion 8","Réunion 9","Réunion 10"};
+    private Calendar dateStart;
+    private Calendar dateEnd;
+    private String room;
     private MyMeetingApiService service = DI.getMyMeetingApiService();
     private List<Meeting> mMeetings = service.getMeetingsList();
     private String subject;
-    private Room room;
+    private RoomListDialogFragment.OnRoomSelectedListener mOnRoomSelectedListener;
 
     @Override
     public View onCreateView(
@@ -61,7 +54,6 @@ public class AddMeetingFragment extends Fragment {
         return binding.getRoot();
 
     }
-
 
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -84,6 +76,31 @@ public class AddMeetingFragment extends Fragment {
                 binding.imageButtonAddMail.setEnabled(!s.toString().isEmpty() && s.toString().contains("@"));
             }
         });
+        binding.editTextDate.setOnClickListener(new View.OnClickListener() {
+            private DatePickerDialog pickerDate;
+
+            @Override
+            public void onClick(View v) {
+                final Calendar cldr = Calendar.getInstance();
+                final int day = cldr.get(Calendar.DAY_OF_MONTH);
+                final int month = cldr.get(Calendar.MONTH);
+                int year = cldr.get(Calendar.YEAR);
+                // date picker dialog
+                pickerDate = new DatePickerDialog(getContext(),
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                dateStart = Calendar.getInstance();
+                                dateStart.set(Calendar.DAY_OF_MONTH,dayOfMonth);
+                                dateStart.set(Calendar.MONTH,monthOfYear);
+                                dateStart.set(Calendar.YEAR,year);
+                                binding.textviewDateTitle.setText(dayOfMonth + "/" + (monthOfYear) + "/" + year);
+                                dateEnd = dateStart;
+                            }
+                        }, year, month, day);
+                pickerDate.show();
+            }
+        });
 
         binding.buttonStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,8 +114,11 @@ public class AddMeetingFragment extends Fragment {
                             @Override
                             public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
                                 binding.buttonStart.setText(sHour + ":" + sMinute);
-                                dateStart.setHours(sHour);
-                                dateStart.setMinutes(sMinute);
+                                binding.buttonStop.setText((sHour +1) + ":" + sMinute);
+                                dateStart.set(Calendar.HOUR_OF_DAY,sHour);
+                                dateStart.set(Calendar.MINUTE,sMinute);
+                                dateEnd.set(Calendar.HOUR_OF_DAY,(sHour+1));
+                                dateEnd.set(Calendar.MINUTE,sMinute);
                             }
                         }, hour, minutes, true);
                 picker.show();
@@ -115,63 +135,33 @@ public class AddMeetingFragment extends Fragment {
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
-                                binding.buttonStop.setText(sHour+":"+sMinute);
-                                dateEnd.setHours(sHour);
-                                dateEnd.setMinutes(sMinute);
+                                binding.buttonStop.setText(sHour + ":" + sMinute);
+                                dateEnd.set(Calendar.HOUR_OF_DAY,sHour);
+                                dateEnd.set(Calendar.MINUTE,sMinute);
                             }
                         }, hour, minutes, true);
                 picker.show();
             }
         });
-        binding.editTextDate.setOnClickListener(new View.OnClickListener() {
-            private DatePickerDialog pickerDate;
 
-            @Override
-            public void onClick(View v) {
-                final Calendar cldr = Calendar.getInstance();
-                int day = cldr.get(Calendar.DAY_OF_MONTH);
-                int month = cldr.get(Calendar.MONTH);
-                int year = cldr.get(Calendar.YEAR);
-                // date picker dialog
-                pickerDate = new DatePickerDialog(getContext(),
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                binding.editTextDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
-                                dateStart = cldr.getTime();
-                                dateEnd = cldr.getTime();
-                            }
-                        }, year, month, day);
-                pickerDate.show();
-            }
-        });
 
         binding.imageButtonAddMail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String mail= binding.editTextTextEmailAddress.getText().toString();
+                String mail = binding.editTextTextEmailAddress.getText().toString();
                 binding.editTextTextEmailAddress.setText(null);
-                Log.d("mailslist", "onClick: "+mListMails);
-                Log.d("mail", "onClick: "+ mail);
+                Log.d("mailslist", "onClick: " + mListMails);
+                Log.d("mail", "onClick: " + mail);
                 mListMails.add(mail);
                 initMailList(mListMails);
             }
         });
-        Spinner spinner = binding.spinner;
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), simple_spinner_item, rooms);
-        adapter.setDropDownViewResource(simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.buttonRoomSelect.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedItem = rooms[position];
-                room = new Room(selectedItem);
-                Log.d("selectedPosition", "onItemSelected: "+ selectedItem);
-                Log.d("room", "onItemSelected: "+ room);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onClick(View v) {
+                RoomListDialogFragment dialog = new RoomListDialogFragment();
+                dialog.setOnRoomSelectedListener(AddMeetingFragment.this);
+                dialog.show(getParentFragmentManager(),"dialog");
 
             }
         });
@@ -184,18 +174,43 @@ public class AddMeetingFragment extends Fragment {
         binding.imageButtonSendMail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                service.getMeetingsList().add(new Meeting(mMeetings.size(),subject,mListMails,room,dateStart,dateEnd));
+                Meeting meetingToAdd = new Meeting(mMeetings.size(), subject, mListMails, room, dateStart.getTime(), dateEnd.getTime());
+                boolean checkMeetingNotExist = service.getMeetingsList().contains(meetingToAdd);
+                if (checkMeetingNotExist) {
+                    Toast.makeText(getContext(), "Meeting already exist", Toast.LENGTH_LONG).show();
+                } else {
 
+                    service.getMeetingsList().add(meetingToAdd);
+                    NavHostFragment.findNavController(AddMeetingFragment.this)
+                            .navigate(R.id.action_AddMeetingFragment_to_HomeFragment);
+
+                    Toast.makeText(getContext(), "Meeting created with success", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
     }
-    public void initMailList(List<String> listMails){
+
+    public void initMailList(List<String> listMails) {
         mRecyclerView.setAdapter(new MailRecyclerViewAdapter(mListMails));
+    }
+    @Subscribe
+    public void onFilterRoomEvent(FilterRoomEvent event) {
+
+        room = event.roomSelected;
+        binding.buttonRoomSelect.setText(room);
+    }
+
+    /**
+     * @param roomSelected
+     */
+    @Override
+    public void sendRoomSelected(String roomSelected) {
+        room = roomSelected;
+        binding.buttonRoomSelect.setText(roomSelected);
     }
 }

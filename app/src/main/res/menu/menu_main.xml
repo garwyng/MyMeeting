@@ -2,15 +2,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.openclassrooms.mymeeting.MainActivity">
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+
     <item
         android:id="@+id/action_date_filter"
         android:orderInCategory="101"
-        android:title="@string/date_filter" />
+        android:title="@string/date_filter"/>
     <item
         android:id="@+id/action_room_filter"
         android:orderInCategory="102"

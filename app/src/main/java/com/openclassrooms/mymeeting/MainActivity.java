@@ -1,21 +1,53 @@
 package com.openclassrooms.mymeeting;
 
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.openclassrooms.mymeeting.controler.MyMeetingApiService;
 import com.openclassrooms.mymeeting.databinding.ActivityMainBinding;
+import com.openclassrooms.mymeeting.di.DI;
+import com.openclassrooms.mymeeting.models.Meeting;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements Parcelable {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
+    private MyMeetingApiService service = DI.getMyMeetingApiService();
+    private String room;
+    private List<Meeting> mMeetingList = service.getMeetingsList();
+
+    public MainActivity() {
+
+    }
+
+    protected MainActivity(Parcel in) {
+        room = in.readString();
+        mMeetingList = in.createTypedArrayList(Meeting.CREATOR);
+    }
+
+    public static final Creator<MainActivity> CREATOR = new Creator<MainActivity>() {
+        @Override
+        public MainActivity createFromParcel(Parcel in) {
+            return new MainActivity(in);
+        }
+
+        @Override
+        public MainActivity[] newArray(int size) {
+            return new MainActivity[size];
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,9 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         setSupportActionBar(binding.toolbar);
-
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
@@ -40,14 +70,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+         switch (item.getItemId()) {
+            case R.id.action_date_filter:
+                DateFilterDialogFragment dialog = new DateFilterDialogFragment();
+                dialog.show(getSupportFragmentManager(),"dialog");
+                //
+                return true;
+            case R.id.action_room_filter:
+                RoomListDialogFragment dialogRoom = new RoomListDialogFragment();
+                dialogRoom.show(getSupportFragmentManager(),"dialogRoom");
+                return true;
+
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -58,5 +93,24 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    /**
+     * @param dest  The Parcel in which the object should be written.
+     * @param flags Additional flags about how the object should be written.
+     *              May be 0 or {@link #PARCELABLE_WRITE_RETURN_VALUE}.
+     */
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(room);
+        dest.writeTypedList(mMeetingList);
     }
 }

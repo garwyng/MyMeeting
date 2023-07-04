@@ -26,4 +26,12 @@
     <string name="enter_a_subject_for_the_meeting">Enter a Subject for the meeting</string>
     <string name="date_filter">Date Filter</string>
     <string name="room_filter">Room Filter</string>
+    <string name="all">all</string>
+    <string name="show_all">Show all</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="select_date">select a date</string>
+    <string name="select_time">select an hour</string>
+    <string name="date_selected">date selected</string>
+    <string name="hour_selected">hour selected</string>
 </resources>

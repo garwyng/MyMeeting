@@ -15,6 +15,12 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
 
+    public static HomeFragment newInstance() {
+        HomeFragment fragment = new HomeFragment();
+        Bundle args = new Bundle();
+        return fragment;
+    }
+
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,

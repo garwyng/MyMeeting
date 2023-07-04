@@ -8,10 +8,8 @@
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
-        android:layout_width="414dp"
-        android:layout_height="730dp"
-
-
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:contentDescription="@string/meeting_list"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         app:layout_constraintEnd_toEndOf="parent"

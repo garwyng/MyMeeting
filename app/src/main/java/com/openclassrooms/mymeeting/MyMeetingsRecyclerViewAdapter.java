@@ -1,18 +1,15 @@
 package com.openclassrooms.mymeeting;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
-
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
-import com.openclassrooms.mymeeting.events.DeleteMeetingEvent;
-import com.openclassrooms.mymeeting.models.Meeting;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.openclassrooms.mymeeting.databinding.FragmentMeetingBinding;
+import com.openclassrooms.mymeeting.events.DeleteMeetingEvent;
+import com.openclassrooms.mymeeting.models.Meeting;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -21,7 +18,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class MyMeetingsRecyclerViewAdapter extends RecyclerView
-        .Adapter<MyMeetingsRecyclerViewAdapter.ViewHolder> {
+        .Adapter<MyMeetingsRecyclerViewAdapter.ViewHolder>  {
 
     private final List<Meeting> mMeetingList;
 
@@ -43,7 +40,7 @@ public class MyMeetingsRecyclerViewAdapter extends RecyclerView
         Meeting meeting = mMeetingList.get(position);
         holder.hourMeeting.setText(format.format(mMeetingList.get(position).getStartDate().getTime()));
         holder.subjectReu.setText(mMeetingList.get(position).getSubject());
-        holder.meetingRoom.setText(mMeetingList.get(position).getRoom().getRoomName());
+        holder.meetingRoom.setText(mMeetingList.get(position).getRoom());
         holder.meetingGuest.setText(mMeetingList.get(position).getGuests().toString());
         holder.imageMeeting.setImageResource(R.drawable.baseline_meeting_room_24);
         holder.imageDeleteMeeting.setImageResource(R.drawable.baseline_delete_24);
@@ -56,7 +53,7 @@ public class MyMeetingsRecyclerViewAdapter extends RecyclerView
 
     @Override
     public int getItemCount() {
-        return mMeetingList.size();
+            return mMeetingList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
