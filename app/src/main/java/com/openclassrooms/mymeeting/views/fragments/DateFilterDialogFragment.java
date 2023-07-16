@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.openclassrooms.mymeeting.controler.MeetingRepository;
 import com.openclassrooms.mymeeting.controler.MyMeetingApiService;
 import com.openclassrooms.mymeeting.databinding.FragmentDateFilterBinding;
 import com.openclassrooms.mymeeting.events.FilterMeetingEvent;
@@ -33,7 +34,7 @@ import java.util.TimeZone;
  */
 public class DateFilterDialogFragment extends BottomSheetDialogFragment {
     static Bundle mBundle = new Bundle();
-    private final MyMeetingApiService service = MyMeetingApiService.getInstance();
+    private final MyMeetingApiService service = MeetingRepository.getInstance();
     private Calendar calendarSearch;
     private FragmentDateFilterBinding binding;
     private final TimeZone timeZone = TimeZone.getDefault();

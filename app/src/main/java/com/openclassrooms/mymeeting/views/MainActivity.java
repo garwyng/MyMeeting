@@ -14,6 +14,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.openclassrooms.mymeeting.R;
+import com.openclassrooms.mymeeting.controler.MeetingRepository;
 import com.openclassrooms.mymeeting.controler.MyMeetingApiService;
 import com.openclassrooms.mymeeting.databinding.ActivityMainBinding;
 import com.openclassrooms.mymeeting.models.Meeting;
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements Parcelable {
     };
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
-    private final MyMeetingApiService service = MyMeetingApiService.getInstance();
+    private final MyMeetingApiService service = MeetingRepository.getInstance();
     private String room;
     private List<Meeting> mMeetingList = service.getMeetingsList();
 

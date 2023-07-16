@@ -21,6 +21,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.openclassrooms.mymeeting.R;
+import com.openclassrooms.mymeeting.controler.MeetingRepository;
 import com.openclassrooms.mymeeting.controler.MyMeetingApiService;
 import com.openclassrooms.mymeeting.databinding.FragmentAddMeetingBinding;
 import com.openclassrooms.mymeeting.events.FilterRoomEvent;
@@ -42,7 +43,7 @@ public class AddMeetingFragment extends Fragment implements RoomListDialogFragme
     private Calendar dateStart;
     private Calendar dateEnd;
     private String room;
-    private final MyMeetingApiService service = MyMeetingApiService.getInstance();
+    private final MyMeetingApiService service = MeetingRepository.getInstance();
     private final List<Meeting> mMeetings = service.getMeetingsList();
     private String subject;
     private RoomListDialogFragment.OnRoomSelectedListener mOnRoomSelectedListener;

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.openclassrooms.mymeeting.R;
+import com.openclassrooms.mymeeting.controler.MeetingRepository;
 import com.openclassrooms.mymeeting.controler.MyMeetingApiService;
 import com.openclassrooms.mymeeting.events.DeleteMeetingEvent;
 import com.openclassrooms.mymeeting.events.FilterMeetingEvent;
@@ -28,7 +29,7 @@ import java.util.List;
  */
 public class MeetingsFragment extends Fragment {
 
-    private final MyMeetingApiService service = MyMeetingApiService.getInstance();
+    private final MyMeetingApiService service = MeetingRepository.getInstance();
     List<Meeting> meetingsList;
     private RecyclerView mRecyclerView;
     private static MeetingsFragment mMeetingsFragment;

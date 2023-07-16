@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.openclassrooms.mymeeting.controler.MeetingRepository;
 import com.openclassrooms.mymeeting.controler.MyMeetingApiService;
 import com.openclassrooms.mymeeting.databinding.FragmentItemListDialogListDialogBinding;
 import com.openclassrooms.mymeeting.databinding.FragmentItemListDialogListDialogItemBinding;
@@ -31,7 +32,7 @@ import java.util.List;
 public class RoomListDialogFragment extends BottomSheetDialogFragment {
 
     public String roomSelected;
-    MyMeetingApiService mApiService = MyMeetingApiService.getInstance();
+    MyMeetingApiService mApiService = MeetingRepository.getInstance();
     List<String> roomsList = mApiService.getRooms();
     Bundle bundle = new Bundle();
     private FragmentItemListDialogListDialogBinding binding;
