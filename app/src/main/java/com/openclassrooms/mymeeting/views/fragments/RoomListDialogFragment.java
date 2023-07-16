@@ -1,4 +1,4 @@
-package com.openclassrooms.mymeeting;
+package com.openclassrooms.mymeeting.views.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,7 +15,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.openclassrooms.mymeeting.controler.MyMeetingApiService;
 import com.openclassrooms.mymeeting.databinding.FragmentItemListDialogListDialogBinding;
 import com.openclassrooms.mymeeting.databinding.FragmentItemListDialogListDialogItemBinding;
-import com.openclassrooms.mymeeting.di.DI;
 import com.openclassrooms.mymeeting.events.FilterRoomEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -32,25 +31,21 @@ import java.util.List;
 public class RoomListDialogFragment extends BottomSheetDialogFragment {
 
     public String roomSelected;
-    MyMeetingApiService mApiService = DI.getMyMeetingApiService();
+    MyMeetingApiService mApiService = MyMeetingApiService.getInstance();
     List<String> roomsList = mApiService.getRooms();
-
-    private FragmentItemListDialogListDialogBinding binding;
     Bundle bundle = new Bundle();
+    private FragmentItemListDialogListDialogBinding binding;
     private OnRoomSelectedListener onRoomSelectedListener;
 
-    public interface OnRoomSelectedListener{
-        void sendRoomSelected(String roomSelected);
-    }
     public static RoomListDialogFragment newInstance() {
         final RoomListDialogFragment fragment = new RoomListDialogFragment();
         final Bundle args = new Bundle();
         return fragment;
     }
+
     public void setOnRoomSelectedListener(OnRoomSelectedListener listener) {
         this.onRoomSelectedListener = listener;
     }
-
 
     @Nullable
     @Override
@@ -73,6 +68,10 @@ public class RoomListDialogFragment extends BottomSheetDialogFragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    public interface OnRoomSelectedListener {
+        void sendRoomSelected(String roomSelected);
     }
 
     private class ViewHolder extends RecyclerView.ViewHolder {

@@ -1,4 +1,4 @@
-package com.openclassrooms.mymeeting;
+package com.openclassrooms.mymeeting.views.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,12 +10,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.openclassrooms.mymeeting.R;
 import com.openclassrooms.mymeeting.controler.MyMeetingApiService;
-import com.openclassrooms.mymeeting.di.DI;
 import com.openclassrooms.mymeeting.events.DeleteMeetingEvent;
 import com.openclassrooms.mymeeting.events.FilterMeetingEvent;
 import com.openclassrooms.mymeeting.events.FilterRoomEvent;
 import com.openclassrooms.mymeeting.models.Meeting;
+import com.openclassrooms.mymeeting.views.adapters.MyMeetingsRecyclerViewAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -27,10 +28,10 @@ import java.util.List;
  */
 public class MeetingsFragment extends Fragment {
 
-    private RecyclerView mRecyclerView;
-    private final MyMeetingApiService service = DI.getMyMeetingApiService();
+    private final MyMeetingApiService service = MyMeetingApiService.getInstance();
     List<Meeting> meetingsList;
-    private boolean isMeetingsList;
+    private RecyclerView mRecyclerView;
+    private static MeetingsFragment mMeetingsFragment;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -39,9 +40,15 @@ public class MeetingsFragment extends Fragment {
     public MeetingsFragment() {
     }
 
-    public static MeetingsFragment newInstance(Bundle bundle) {
+    public static MeetingsFragment getMeetingFragmentInstance(){
+        if (mMeetingsFragment == null){
+            mMeetingsFragment = new MeetingsFragment();
+        }
+        return mMeetingsFragment;
+    }
+
+    public static MeetingsFragment newInstance() {
         MeetingsFragment fragment = new MeetingsFragment();
-        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -61,8 +68,9 @@ public class MeetingsFragment extends Fragment {
 
         return view;
     }
+
     private void initMeetingsList() {
-            meetingsList= service.getMeetingsList();
+        meetingsList = service.getMeetingsList();
         mRecyclerView.setAdapter(new MyMeetingsRecyclerViewAdapter(meetingsList));
     }
 
@@ -80,6 +88,7 @@ public class MeetingsFragment extends Fragment {
         super.onStart();
         EventBus.getDefault().register(this);
     }
+
     /**
      *
      */
@@ -94,16 +103,18 @@ public class MeetingsFragment extends Fragment {
         service.deleteMeeting(event.meeting);
         initMeetingsList();
     }
+
     @Subscribe
     public void onFilterByDate(FilterMeetingEvent event) {
 
-        meetingsList= service.DateFilter(event.dateSearch);
+        meetingsList = service.dateFilter(event.dateSearch);
         mRecyclerView.setAdapter(new MyMeetingsRecyclerViewAdapter(meetingsList));
     }
+
     @Subscribe
     public void onFilterByRoom(FilterRoomEvent event) {
 
-        meetingsList= service.roomFilter(event.roomSelected);
+        meetingsList = service.roomFilter(event.roomSelected);
         mRecyclerView.setAdapter(new MyMeetingsRecyclerViewAdapter(meetingsList));
     }
 }

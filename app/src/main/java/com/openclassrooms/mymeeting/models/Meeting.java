@@ -9,6 +9,17 @@ import java.util.Date;
 import java.util.List;
 
 public class Meeting implements Parcelable {
+    public static final Creator<Meeting> CREATOR = new Creator<Meeting>() {
+        @Override
+        public Meeting createFromParcel(Parcel in) {
+            return new Meeting(in);
+        }
+
+        @Override
+        public Meeting[] newArray(int size) {
+            return new Meeting[size];
+        }
+    };
     int id;
     private String subject;
     private List<String> guests;
@@ -17,7 +28,6 @@ public class Meeting implements Parcelable {
     private Date endDate;
 
     /**
-     *
      * @param subject
      * @param guests
      */
@@ -38,18 +48,6 @@ public class Meeting implements Parcelable {
         startDate = (Date) in.readSerializable();
         endDate = (Date) in.readSerializable();
     }
-
-    public static final Creator<Meeting> CREATOR = new Creator<Meeting>() {
-        @Override
-        public Meeting createFromParcel(Parcel in) {
-            return new Meeting(in);
-        }
-
-        @Override
-        public Meeting[] newArray(int size) {
-            return new Meeting[size];
-        }
-    };
 
     public int getId() {
         return id;

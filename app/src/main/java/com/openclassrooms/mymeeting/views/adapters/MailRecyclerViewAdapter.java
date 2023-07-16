@@ -1,4 +1,4 @@
-package com.openclassrooms.mymeeting;
+package com.openclassrooms.mymeeting.views.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,21 +8,23 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.openclassrooms.mymeeting.databinding.FragmentAddMeetingBinding;
+import com.openclassrooms.mymeeting.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MailRecyclerViewAdapter extends RecyclerView.Adapter<MailRecyclerViewAdapter.ViewHolder> {
 
     private final List<String> mailsList;
-    public MailRecyclerViewAdapter(List<String> mails){mailsList= mails;}
+
+    public MailRecyclerViewAdapter(List<String> mails) {
+        mailsList = mails;
+    }
 
     @NonNull
     @Override
     public MailRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_item_mail,parent,false);
+                .inflate(R.layout.fragment_item_mail, parent, false);
         return new ViewHolder(itemView);
     }
 

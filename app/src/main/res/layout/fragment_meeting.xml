@@ -29,19 +29,20 @@
         app:srcCompat="@drawable/baseline_meeting_room_24" />
 
     <TextView
-        android:id="@+id/item_list_salle"
+        android:id="@+id/item_room_name"
         android:layout_width="wrap_content"
         android:layout_height="21dp"
         android:layout_margin="4dp"
         android:hint="REUNION A"
         android:textStyle="bold"
+        android:contentDescription="@string/select_room"
         app:layout_constraintBottom_toBottomOf="@+id/item_image_list_reu"
         app:layout_constraintStart_toEndOf="@+id/item_image_list_reu"
         app:layout_constraintTop_toTopOf="@+id/item_image_list_reu"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/item_list_heure"
+        android:id="@+id/item_meeting_hour"
         android:layout_width="wrap_content"
         android:layout_height="21dp"
         android:layout_margin="4dp"
@@ -49,8 +50,9 @@
         android:hint="14:00"
         android:inputType="datetime"
         android:textStyle="bold"
+        android:contentDescription="@string/Day_for_the_meeting"
         app:layout_constraintBottom_toBottomOf="@+id/item_image_list_reu"
-        app:layout_constraintStart_toEndOf="@+id/item_list_salle"
+        app:layout_constraintStart_toEndOf="@+id/item_room_name"
         app:layout_constraintTop_toTopOf="@+id/item_image_list_reu"
         app:layout_constraintVertical_bias="0.0" />
 
@@ -64,7 +66,7 @@
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="@+id/item_image_list_reu"
         app:layout_constraintStart_toEndOf="@+id/item_image_list_reu"
-        app:layout_constraintTop_toBottomOf="@+id/item_list_salle"
+        app:layout_constraintTop_toBottomOf="@+id/item_room_name"
         app:layout_constraintVertical_bias="0.785" />
 
     <TextView
@@ -74,7 +76,7 @@
         android:layout_margin="4dp"
         android:layout_marginStart="24dp"
         android:layout_marginBottom="4dp"
-        android:hint="sebastiencusset@hotmail.com"
+        android:hint="example@hotmail.com"
         android:textStyle="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/item_image_list_reu" />

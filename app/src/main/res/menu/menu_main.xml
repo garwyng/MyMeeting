@@ -1,14 +1,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.openclassrooms.mymeeting.MainActivity">
+    tools:context="com.openclassrooms.mymeeting.views.MainActivity">
 
     <item
-        android:id="@+id/action_date_filter"
+        android:id="@+id/action_all"
         android:orderInCategory="101"
+        android:title="@string/all" />
+    <item
+        android:id="@+id/action_date_filter"
+        android:orderInCategory="102"
         android:title="@string/date_filter"/>
     <item
         android:id="@+id/action_room_filter"
-        android:orderInCategory="102"
+        android:orderInCategory="103"
         android:title="@string/room_filter" />
 </menu>

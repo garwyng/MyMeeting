@@ -1,4 +1,4 @@
-package com.openclassrooms.mymeeting;
+package com.openclassrooms.mymeeting.views.adapters;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.openclassrooms.mymeeting.R;
 import com.openclassrooms.mymeeting.databinding.FragmentMeetingBinding;
 import com.openclassrooms.mymeeting.events.DeleteMeetingEvent;
 import com.openclassrooms.mymeeting.models.Meeting;
@@ -18,14 +19,21 @@ import java.util.List;
 import java.util.Locale;
 
 public class MyMeetingsRecyclerViewAdapter extends RecyclerView
-        .Adapter<MyMeetingsRecyclerViewAdapter.ViewHolder>  {
+        .Adapter<MyMeetingsRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Meeting> mMeetingList;
+    static SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy HH:mm", Locale.FRANCE);
+    private List<Meeting> mMeetingList;
+    MyMeetingsRecyclerViewAdapter mMyMeetingsRecyclerViewAdapter;
+
+    public MyMeetingsRecyclerViewAdapter getRecyclerViewAdapterInstance(){
+        if (mMyMeetingsRecyclerViewAdapter == null){
+            mMyMeetingsRecyclerViewAdapter = new MyMeetingsRecyclerViewAdapter(mMeetingList);
+        }
+        return mMyMeetingsRecyclerViewAdapter;}
 
     public MyMeetingsRecyclerViewAdapter(List<Meeting> items) {
         mMeetingList = items;
     }
-    static SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy HH:mm", Locale.FRANCE);
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -53,7 +61,7 @@ public class MyMeetingsRecyclerViewAdapter extends RecyclerView
 
     @Override
     public int getItemCount() {
-            return mMeetingList.size();
+        return mMeetingList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -61,14 +69,14 @@ public class MyMeetingsRecyclerViewAdapter extends RecyclerView
         public final TextView hourMeeting;
         public final TextView subjectReu;
         public final TextView meetingGuest;
-        public ImageView imageMeeting;
         public final ImageView imageDeleteMeeting;
+        public ImageView imageMeeting;
 
 
         public ViewHolder(FragmentMeetingBinding binding) {
             super(binding.getRoot());
-            meetingRoom = binding.itemListSalle;
-            hourMeeting = binding.itemListHeure;
+            meetingRoom = binding.itemRoomName;
+            hourMeeting = binding.itemMeetingHour;
             subjectReu = binding.itemListObjet;
             meetingGuest = binding.itemListGuest;
             imageMeeting = binding.itemImageListReu;

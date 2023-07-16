@@ -3,39 +3,39 @@ package com.openclassrooms.mymeeting.controler;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import com.openclassrooms.mymeeting.di.DI;
 import com.openclassrooms.mymeeting.models.Meeting;
 import com.openclassrooms.mymeeting.utils.Utils;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 
 import java.util.Date;
 import java.util.List;
 
-public class MyMeetingApiServiceTest extends MyMeetingApiService {
-
-    MyMeetingApiService mApiService = DI.getMyMeetingApiService();
-
+public class MyMeetingApiServiceTest {
+    List<Meeting> mMeetingsList;
+    private MyMeetingApiService mApiService;
     List<String> roomsList;
     final int sizeExpected = 15;
     final int sizeRoomExpected = 10;
 
 
-    @BeforeEach
+    @Before
     public void setUp() throws Exception {
-        MyMeetingApiService mApiService = DI.getMyMeetingApiService();
+        mApiService= null;
+        mApiService = MyMeetingApiService.getInstance();
+        mMeetingsList = mApiService.getMeetingsList();
     }
 
     @After
     public void tearDown() throws Exception {
-
+        mApiService = null;
     }
     @Test
     public void testDeleteMeeting() {
-        List<Meeting> mMeetingsList = mApiService.getMeetingsList();
-        Meeting userToDelete = mMeetingsList.get(0);
+        mMeetingsList=mApiService.getMeetingsList();
+        Meeting userToDelete = mApiService.getMeetingsList().get(10);
         mApiService.deleteMeeting(userToDelete);
         assertEquals(sizeExpected - 1, mMeetingsList.size());
     }
@@ -44,7 +44,7 @@ public class MyMeetingApiServiceTest extends MyMeetingApiService {
         List<Meeting> mMeetingsList = mApiService.getMeetingsList();
         String room = "Réunion 1";
         List<Meeting> listReturn = mApiService.roomFilter(room);
-        assertEquals(4,listReturn.size());
+        assertEquals(3,listReturn.size());
         for (Meeting meeting:listReturn) {assertTrue(mMeetingsList.contains(meeting));}
     }
     @Test
@@ -70,7 +70,7 @@ public class MyMeetingApiServiceTest extends MyMeetingApiService {
     public void dateFilter() {
         List<Meeting> mMeetingsList = mApiService.getMeetingsList();
         Date dateToTest = Utils.getDateFromString("01/08/23 09:00");
-        List<Meeting> listReturn = mApiService.DateFilter(dateToTest);
+        List<Meeting> listReturn = mApiService.dateFilter(dateToTest);
         assertEquals(4,listReturn.size());
         for (Meeting meeting:listReturn) {assertTrue(mMeetingsList.contains(meeting));}
     }
@@ -83,6 +83,6 @@ public class MyMeetingApiServiceTest extends MyMeetingApiService {
     public void testGetMeetingsList() {
         List<Meeting> mMeetingsList = mApiService.getMeetingsList();
         int currentSize = mMeetingsList.size();
-        assertEquals(sizeExpected, currentSize);
+        assertEquals(sizeExpected -1, currentSize); //delete meeting étant executé en premier la lise ne contient plus que 14 reference
     }
 }

@@ -1,4 +1,4 @@
-package com.openclassrooms.mymeeting;
+package com.openclassrooms.mymeeting.views;
 
 import android.os.Bundle;
 import android.os.Parcel;
@@ -13,29 +13,17 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.openclassrooms.mymeeting.R;
 import com.openclassrooms.mymeeting.controler.MyMeetingApiService;
 import com.openclassrooms.mymeeting.databinding.ActivityMainBinding;
-import com.openclassrooms.mymeeting.di.DI;
 import com.openclassrooms.mymeeting.models.Meeting;
+import com.openclassrooms.mymeeting.views.fragments.DateFilterDialogFragment;
+import com.openclassrooms.mymeeting.views.fragments.MeetingsFragment;
+import com.openclassrooms.mymeeting.views.fragments.RoomListDialogFragment;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements Parcelable {
-
-    private AppBarConfiguration appBarConfiguration;
-    private ActivityMainBinding binding;
-    private MyMeetingApiService service = DI.getMyMeetingApiService();
-    private String room;
-    private List<Meeting> mMeetingList = service.getMeetingsList();
-
-    public MainActivity() {
-
-    }
-
-    protected MainActivity(Parcel in) {
-        room = in.readString();
-        mMeetingList = in.createTypedArrayList(Meeting.CREATOR);
-    }
 
     public static final Creator<MainActivity> CREATOR = new Creator<MainActivity>() {
         @Override
@@ -48,6 +36,20 @@ public class MainActivity extends AppCompatActivity implements Parcelable {
             return new MainActivity[size];
         }
     };
+    private AppBarConfiguration appBarConfiguration;
+    private ActivityMainBinding binding;
+    private final MyMeetingApiService service = MyMeetingApiService.getInstance();
+    private String room;
+    private List<Meeting> mMeetingList = service.getMeetingsList();
+
+    public MainActivity() {
+
+    }
+
+    protected MainActivity(Parcel in) {
+        room = in.readString();
+        mMeetingList = in.createTypedArrayList(Meeting.CREATOR);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,18 +73,18 @@ public class MainActivity extends AppCompatActivity implements Parcelable {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-         switch (item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.action_date_filter:
                 DateFilterDialogFragment dialog = new DateFilterDialogFragment();
-                dialog.show(getSupportFragmentManager(),"dialog");
+                dialog.show(getSupportFragmentManager(), "dialog");
                 //
                 return true;
             case R.id.action_room_filter:
                 RoomListDialogFragment dialogRoom = new RoomListDialogFragment();
-                dialogRoom.show(getSupportFragmentManager(),"dialogRoom");
+                dialogRoom.show(getSupportFragmentManager(), "dialogRoom");
                 return true;
-
-
+            case R.id.action_all:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView3, MeetingsFragment.getMeetingFragmentInstance()).commitNow();
         }
 
         return super.onOptionsItemSelected(item);

@@ -8,9 +8,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/purple_500"
-        tools:context=".AddMeetingFragment">
+        tools:context=".views.fragments.AddMeetingFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -26,10 +26,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="409dp"
         android:text="@string/Day_for_the_meeting"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerviewMail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -53,7 +55,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textview_date_title"
-                tools:ignore="LabelFor">
+                tools:ignore="LabelFor,VisualLintTextFieldSize">
 
             </EditText>
 
@@ -61,7 +63,7 @@
                 android:id="@+id/textViewHours"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="17dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/set_hours_for_the_meeting"
                 android:textAlignment="center"
                 android:textColor="@color/black"
@@ -77,11 +79,11 @@
                 android:id="@+id/button_start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginStart="51dp"
+                android:layout_marginBottom="11dp"
                 android:text="@string/start"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewHours">
+                app:layout_constraintBottom_toTopOf="@+id/editTextTextEmailAddress"
+                app:layout_constraintStart_toStartOf="@+id/editTextTextEmailAddress">
 
             </Button>
 
@@ -89,22 +91,18 @@
                 android:id="@+id/button_stop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="32dp"
-                android:layout_marginBottom="18dp"
                 android:text="@string/stop"
-                app:layout_constraintBottom_toTopOf="@+id/button_room_select"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintEnd_toEndOf="@+id/editTextTextEmailAddress"
+                app:layout_constraintTop_toBottomOf="@+id/textViewHours">
 
             </Button>
 
             <EditText
                 android:id="@+id/EditSendMail"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="30dp"
-                android:layout_marginBottom="85dp"
-                android:autofillHints=""
                 android:focusableInTouchMode="true"
                 android:hint="@string/enter_a_subject_for_the_meeting"
                 android:inputType="textEmailSubject"
@@ -112,81 +110,98 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="italic"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/imageButtonSendMail"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintBottom_toTopOf="@+id/recyclerviewMail"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="Autofill,VisualLintTextFieldSize">
 
             </EditText>
 
             <EditText
                 android:id="@+id/editTextTextEmailAddress"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="13dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginTop="11dp"
+                android:layout_marginBottom="24dp"
                 android:autofillHints=""
                 android:ems="10"
                 android:hint="@string/write_an_email"
                 android:inputType="textEmailAddress"
-                app:layout_constraintBottom_toTopOf="@+id/recyclerviewMail"
+                app:layout_constraintBottom_toTopOf="@+id/button_room_select"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button_room_select">
+                app:layout_constraintTop_toBottomOf="@+id/button_stop"
+                tools:ignore="VisualLintTextFieldSize">
 
             </EditText>
 
             <ImageButton
                 android:id="@+id/imageButtonAddMail"
-                android:layout_width="55dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="7dp"
-                android:layout_marginTop="80dp"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginTop="96dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="95dp"
                 android:contentDescription="@string/add_an_email"
                 android:minHeight="48dp"
                 android:src="@drawable/baseline_add_24"
+                app:layout_constraintBottom_toTopOf="@+id/EditSendMail"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.555"
-                app:layout_constraintStart_toEndOf="@+id/button_room_select"
-                app:layout_constraintTop_toBottomOf="@+id/button_stop">
+                app:layout_constraintTop_toBottomOf="@+id/textViewHours">
 
             </ImageButton>
 
             <ImageButton
                 android:id="@+id/imageButtonSendMail"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-                android:layout_marginEnd="72dp"
+                android:layout_width="49dp"
+                android:layout_height="34dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="113dp"
                 android:contentDescription="@string/send_invitation"
                 android:src="@drawable/baseline_send_24"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/EditSendMail"
-                app:layout_constraintTop_toTopOf="@+id/EditSendMail">
+                app:layout_constraintStart_toEndOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/recyclerviewMail">
 
             </ImageButton>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerviewMail"
-                android:layout_width="wrap_content"
-                android:layout_height="150dp"
-                android:layout_marginStart="1dp"
-                android:layout_marginTop="74dp"
-                android:layout_marginBottom="68dp"
+                android:layout_width="375dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
                 android:nestedScrollingEnabled="true"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toBottomOf="@+id/imageButtonSendMail"
+                app:layout_constraintBottom_toTopOf="@+id/imageButtonSendMail"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/imageButtonAddMail"
+                app:layout_constraintTop_toBottomOf="@+id/textview_date_title"
                 tools:listitem="@layout/fragment_item_mail" />
 
             <Button
                 android:id="@+id/button_room_select"
+                android:layout_width="163dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="16dp"
+                android:gravity="center_horizontal"
+                android:text="@string/select_room"
+                app:layout_constraintBottom_toTopOf="@+id/EditSendMail"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="TextSizeCheck" />
+
+            <TextView
+                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="21dp"
-                android:text="@string/select_room"
+                android:layout_marginStart="215dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="4dp"
+                android:text="@string/send_invitation"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toStartOf="@+id/imageButtonSendMail"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button_start" />
+                app:layout_constraintTop_toTopOf="@+id/imageButtonSendMail" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

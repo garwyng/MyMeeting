@@ -1,7 +1,9 @@
-package com.openclassrooms.mymeeting;
+package com.openclassrooms.mymeeting.views.fragments;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,11 +20,12 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.openclassrooms.mymeeting.R;
 import com.openclassrooms.mymeeting.controler.MyMeetingApiService;
 import com.openclassrooms.mymeeting.databinding.FragmentAddMeetingBinding;
-import com.openclassrooms.mymeeting.di.DI;
 import com.openclassrooms.mymeeting.events.FilterRoomEvent;
 import com.openclassrooms.mymeeting.models.Meeting;
+import com.openclassrooms.mymeeting.views.adapters.MailRecyclerViewAdapter;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -30,19 +33,21 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class AddMeetingFragment extends Fragment implements RoomListDialogFragment.OnRoomSelectedListener{
+public class AddMeetingFragment extends Fragment implements RoomListDialogFragment.OnRoomSelectedListener {
 
+    private final List<String> mListMails = new ArrayList<>();
     private FragmentAddMeetingBinding binding;
     private TimePickerDialog picker;
-    private final List<String> mListMails = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private Calendar dateStart;
     private Calendar dateEnd;
     private String room;
-    private MyMeetingApiService service = DI.getMyMeetingApiService();
-    private List<Meeting> mMeetings = service.getMeetingsList();
+    private final MyMeetingApiService service = MyMeetingApiService.getInstance();
+    private final List<Meeting> mMeetings = service.getMeetingsList();
     private String subject;
     private RoomListDialogFragment.OnRoomSelectedListener mOnRoomSelectedListener;
+
+    private AlertDialog.Builder mBuilder;
 
     @Override
     public View onCreateView(
@@ -91,11 +96,14 @@ public class AddMeetingFragment extends Fragment implements RoomListDialogFragme
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                                 dateStart = Calendar.getInstance();
-                                dateStart.set(Calendar.DAY_OF_MONTH,dayOfMonth);
-                                dateStart.set(Calendar.MONTH,monthOfYear);
-                                dateStart.set(Calendar.YEAR,year);
-                                binding.textviewDateTitle.setText(dayOfMonth + "/" + (monthOfYear) + "/" + year);
-                                dateEnd = dateStart;
+                                dateStart.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                                dateStart.set(Calendar.MONTH, monthOfYear);
+                                dateStart.set(Calendar.YEAR, year);
+                                binding.textviewDateTitle.setText(dayOfMonth + "/" + (monthOfYear+1) + "/" + year);
+                                dateEnd = Calendar.getInstance();
+                                dateEnd.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                                dateEnd.set(Calendar.MONTH, monthOfYear);
+                                dateEnd.set(Calendar.YEAR, year);
                             }
                         }, year, month, day);
                 pickerDate.show();
@@ -113,12 +121,13 @@ public class AddMeetingFragment extends Fragment implements RoomListDialogFragme
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
+
                                 binding.buttonStart.setText(sHour + ":" + sMinute);
-                                binding.buttonStop.setText((sHour +1) + ":" + sMinute);
-                                dateStart.set(Calendar.HOUR_OF_DAY,sHour);
-                                dateStart.set(Calendar.MINUTE,sMinute);
-                                dateEnd.set(Calendar.HOUR_OF_DAY,(sHour+1));
-                                dateEnd.set(Calendar.MINUTE,sMinute);
+                                binding.buttonStop.setText((sHour + 1) + ":" + sMinute);
+                                dateStart.set(Calendar.HOUR_OF_DAY, sHour);
+                                dateStart.set(Calendar.MINUTE, sMinute);
+                                dateEnd.set(Calendar.HOUR_OF_DAY, (sHour + 1));
+                                dateEnd.set(Calendar.MINUTE, sMinute);
                             }
                         }, hour, minutes, true);
                 picker.show();
@@ -135,10 +144,22 @@ public class AddMeetingFragment extends Fragment implements RoomListDialogFragme
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
+                                dateEnd.set(Calendar.HOUR_OF_DAY, sHour);
+                                dateEnd.set(Calendar.MINUTE, sMinute);
+                                if (dateEnd.getTime().getTime() <= dateStart.getTime().getTime()){
+                                    mBuilder = new AlertDialog.Builder(getContext());
+                                    mBuilder.setTitle("Date not valid").setMessage("the schedule set for the end of the meeting is lesser than the schedule for the start.").show();
+                                    mBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                        }
+                                    });
+                                    }else{
+
                                 binding.buttonStop.setText(sHour + ":" + sMinute);
-                                dateEnd.set(Calendar.HOUR_OF_DAY,sHour);
-                                dateEnd.set(Calendar.MINUTE,sMinute);
-                            }
+
+                            }}
                         }, hour, minutes, true);
                 picker.show();
             }
@@ -161,7 +182,7 @@ public class AddMeetingFragment extends Fragment implements RoomListDialogFragme
             public void onClick(View v) {
                 RoomListDialogFragment dialog = new RoomListDialogFragment();
                 dialog.setOnRoomSelectedListener(AddMeetingFragment.this);
-                dialog.show(getParentFragmentManager(),"dialog");
+                dialog.show(getParentFragmentManager(), "dialog");
 
             }
         });
@@ -189,6 +210,7 @@ public class AddMeetingFragment extends Fragment implements RoomListDialogFragme
             }
         });
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -198,6 +220,7 @@ public class AddMeetingFragment extends Fragment implements RoomListDialogFragme
     public void initMailList(List<String> listMails) {
         mRecyclerView.setAdapter(new MailRecyclerViewAdapter(mListMails));
     }
+
     @Subscribe
     public void onFilterRoomEvent(FilterRoomEvent event) {
 

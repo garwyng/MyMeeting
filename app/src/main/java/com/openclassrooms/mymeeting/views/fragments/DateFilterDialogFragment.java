@@ -1,9 +1,8 @@
-package com.openclassrooms.mymeeting;
+package com.openclassrooms.mymeeting.views.fragments;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.os.Parcel;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,6 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.openclassrooms.mymeeting.controler.MyMeetingApiService;
 import com.openclassrooms.mymeeting.databinding.FragmentDateFilterBinding;
-import com.openclassrooms.mymeeting.di.DI;
 import com.openclassrooms.mymeeting.events.FilterMeetingEvent;
 import com.openclassrooms.mymeeting.utils.Utils;
 
@@ -34,17 +32,15 @@ import java.util.TimeZone;
  * create an instance of this fragment.
  */
 public class DateFilterDialogFragment extends BottomSheetDialogFragment {
-    private Date dateSearch;
     static Bundle mBundle = new Bundle();
-    private final MyMeetingApiService service = DI.getMyMeetingApiService();
+    private final MyMeetingApiService service = MyMeetingApiService.getInstance();
+    private Calendar calendarSearch;
     private FragmentDateFilterBinding binding;
-
+    private final TimeZone timeZone = TimeZone.getDefault();
     private TimePickerDialog picker;
+    private Date dateSearch;
 
     public DateFilterDialogFragment() {
-    }
-    protected DateFilterDialogFragment(Parcel in) {
-        dateSearch = (Date) in.readSerializable();
     }
 
     public static DateFilterDialogFragment newInstance() {
@@ -59,13 +55,15 @@ public class DateFilterDialogFragment extends BottomSheetDialogFragment {
         if (getArguments() != null) {
         }
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentDateFilterBinding.inflate(inflater,container,false);
+        binding = FragmentDateFilterBinding.inflate(inflater, container, false);
         // Inflate the layout for this fragment
         return binding.getRoot();
     }
+
     /**
      * @param view               The View returned by {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)}.
      * @param savedInstanceState If non-null, this fragment is being re-constructed
@@ -76,12 +74,12 @@ public class DateFilterDialogFragment extends BottomSheetDialogFragment {
         super.onViewCreated(view, savedInstanceState);
         binding.buttonSelectDate.setOnClickListener(new View.OnClickListener() {
             private DatePickerDialog pickerDate;
+
             @Override
             public void onClick(View v) {
-                TimeZone timeZone = TimeZone.getTimeZone("France/Paris");
-                Calendar cldr= Calendar.getInstance();
-                Log.d("timeZone", "onClick: "+cldr.getTimeZone());
-                cldr.setTimeZone(timeZone);
+
+                Calendar cldr = Calendar.getInstance(timeZone);
+                Log.d("timeZone", "onClick: " + cldr);
                 final int day = cldr.get(Calendar.DAY_OF_MONTH);
                 final int month = cldr.get(Calendar.MONTH);
                 int year = cldr.get(Calendar.YEAR);
@@ -90,12 +88,14 @@ public class DateFilterDialogFragment extends BottomSheetDialogFragment {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                String stringHour = "09:00";
-                                String dateString = Utils.getStringFromDate(new Date(year,(monthOfYear),dayOfMonth,9,00));
-                                dateSearch = Utils.getDateFromString(dateString);
 
-                                binding.buttonSelectDate.setText(dateString);
-                                binding.buttonSelectTime.setText(stringHour);
+                                calendarSearch = Calendar.getInstance(timeZone);
+                                calendarSearch.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                                calendarSearch.set(Calendar.MONTH, monthOfYear);
+                                calendarSearch.set(Calendar.YEAR, year);
+                                String dateString = Utils.getStringFromDate(calendarSearch.getTime());
+                                binding.buttonSelectDate.setText(dayOfMonth+"/"+(monthOfYear+1)+"/"+year);
+
                             }
                         }, year, month, day);
                 pickerDate.show();
@@ -104,7 +104,7 @@ public class DateFilterDialogFragment extends BottomSheetDialogFragment {
         binding.buttonSelectTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Calendar cldr = Calendar.getInstance();
+                final Calendar cldr = Calendar.getInstance(timeZone);
                 int hour = cldr.get(Calendar.HOUR_OF_DAY);
                 int minutes = cldr.get(Calendar.MINUTE);
                 // time picker dialog
@@ -112,13 +112,26 @@ public class DateFilterDialogFragment extends BottomSheetDialogFragment {
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
-                                dateSearch.setHours(sHour);
-                                dateSearch.setMinutes(sMinute);
-                                String stMinute="";
-                                String stHour="";
-                                if (sMinute<=9){stMinute="0"+sMinute;}
-                                if (sHour<=9){stHour="0"+sHour;}
-                                binding.buttonSelectTime.setText((stHour + ":" + stMinute));
+                                calendarSearch.set(Calendar.HOUR_OF_DAY, sHour);
+                                calendarSearch.set(Calendar.MINUTE, sMinute);
+                                calendarSearch.set(Calendar.SECOND, 0);
+                                String dateString = Utils.getStringFromDate(calendarSearch.getTime());
+
+                                String stMinute = "";
+                                String stHour = "";
+                                if (sMinute < 10) {
+                                    stMinute = "0" + sMinute;
+                                } else {
+                                    stHour = String.valueOf(sHour);
+                                }
+                                if (sHour < 10) {
+                                    stHour = "0" + sHour;
+                                } else {
+                                    stMinute = String.valueOf(sMinute);
+                                }
+                                binding.buttonSelectTime.setText((sHour + ":" + stMinute));
+                                binding.buttonSelectDate.setText(calendarSearch.getTime().toString());
+                                dateSearch = Utils.getDateFromString(dateString);
                             }
                         }, hour, minutes, true);
                 picker.show();
@@ -133,10 +146,11 @@ public class DateFilterDialogFragment extends BottomSheetDialogFragment {
         binding.buttonOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("dateSearch", "onClick: " + dateSearch);
                 EventBus.getDefault().post(new FilterMeetingEvent(dateSearch));
                 dismiss();
             }
         });
     }
 
-    }
+}
