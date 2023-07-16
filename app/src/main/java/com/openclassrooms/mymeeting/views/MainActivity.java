@@ -52,6 +52,11 @@ public class MainActivity extends AppCompatActivity implements Parcelable {
         mMeetingList = in.createTypedArrayList(Meeting.CREATOR);
     }
 
+    /**
+     * @param savedInstanceState If the activity is being re-initialized after
+     *                           previously being shut down then this Bundle contains the data it most
+     *                           recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +69,10 @@ public class MainActivity extends AppCompatActivity implements Parcelable {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
     }
 
+    /**
+     * @param menu The options menu in which you place your items.
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -71,6 +80,10 @@ public class MainActivity extends AppCompatActivity implements Parcelable {
         return true;
     }
 
+    /**
+     * @param item The menu item that was selected.
+     *
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 

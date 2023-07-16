@@ -70,7 +70,7 @@ public class AddMeetingTest {
         ViewInteraction textView = onView(
                 allOf(withText("add new meeting"),
                         withParent(allOf(withId(R.id.toolbar),
-                                withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class)))),
+                                withParent(IsInstanceOf.instanceOf(android.widget.LinearLayout.class)))),
                         isDisplayed()));
         textView.check(matches(withText("add new meeting")));
 
@@ -104,9 +104,9 @@ public class AddMeetingTest {
         appCompatImageButton2.perform(scrollTo(), click());
 
         ViewInteraction datePicker = onView(
-                allOf(IsInstanceOf.<View>instanceOf(android.widget.DatePicker.class),
+                allOf(IsInstanceOf.instanceOf(android.widget.DatePicker.class),
                         withParent(allOf(withId(android.R.id.custom),
-                                withParent(IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class)))),
+                                withParent(IsInstanceOf.instanceOf(android.widget.FrameLayout.class)))),
                         isDisplayed()));
         datePicker.perform(PickerActions.setDate(2023,9,7));
 
@@ -121,7 +121,7 @@ public class AddMeetingTest {
 
         ViewInteraction textView2 = onView(
                 allOf(withId(R.id.textview_date_title), withText("7/9/2023"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class))),
+                        withParent(withParent(IsInstanceOf.instanceOf(android.widget.LinearLayout.class))),
                         isDisplayed()));
         textView2.check(matches(withText("7/9/2023")));
 

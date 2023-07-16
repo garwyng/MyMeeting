@@ -11,27 +11,32 @@ public class MeetingRepository {
     public static MyMeetingApiService getInstance(){
         return MyMeetingApiService.getInstance();
     }
-    public MeetingRepository(MyMeetingApiService apiService) {
+
+
+    private MeetingRepository(MyMeetingApiService apiService) {
         mApiService = apiService;
     }
 
-    public List<Meeting> getMeetingsList(){
+    private List<Meeting> getMeetingsList(){
         return mApiService.getMeetingsList();
     }
-    public List<String> getRooms() {
+
+    private List<String> getRooms() {
         return mApiService.getRooms();
     }
 
-    public void deleteMeeting(Meeting meeting) {
+    private void deleteMeeting(Meeting meeting) {
         mApiService.deleteMeeting(meeting);
     }
-    public List<Meeting> dateFilter(Date date) {
+
+    private List<Meeting> dateFilter(Date date) {
         return mApiService.dateFilter(date);
     }
-    public void addMeeting(Meeting meetingToAdd) {
+    private void addMeeting(Meeting meetingToAdd) {
         mApiService.addMeeting(meetingToAdd);
     }
-    public List<Meeting> roomFilter(String room) {
+
+    private List<Meeting> roomFilter(String room) {
         return mApiService.roomFilter(room);
     }
 }

@@ -41,6 +41,9 @@ public class MeetingsFragment extends Fragment {
     public MeetingsFragment() {
     }
 
+    /**
+     * @return list of meetings
+     */
     public static MeetingsFragment getMeetingFragmentInstance(){
         if (mMeetingsFragment == null){
             mMeetingsFragment = new MeetingsFragment();
@@ -53,12 +56,26 @@ public class MeetingsFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * @param savedInstanceState If the fragment is being re-created from
+     *                           a previous saved state, this is the state.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
     }
 
+    /**
+     * @param inflater           The LayoutInflater object that can be used to inflate
+     *                           any views in the fragment,
+     * @param container          If non-null, this is the parent view that the fragment's
+     *                           UI should be attached to.  The fragment should not add the view itself,
+     *                           but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     *                           from a previous saved state as given here.
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -81,30 +98,30 @@ public class MeetingsFragment extends Fragment {
         initMeetingsList();
     }
 
-    /**
-     *
-     */
     @Override
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
     }
 
-    /**
-     *
-     */
     @Override
     public void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
     }
 
+    /**
+     * @param event
+     */
     @Subscribe
     public void onDeleteMeeting(DeleteMeetingEvent event) {
         service.deleteMeeting(event.meeting);
         initMeetingsList();
     }
 
+    /**
+     * @param event
+     */
     @Subscribe
     public void onFilterByDate(FilterMeetingEvent event) {
 
@@ -112,6 +129,9 @@ public class MeetingsFragment extends Fragment {
         mRecyclerView.setAdapter(new MyMeetingsRecyclerViewAdapter(meetingsList));
     }
 
+    /**
+     * @param event
+     */
     @Subscribe
     public void onFilterByRoom(FilterRoomEvent event) {
 

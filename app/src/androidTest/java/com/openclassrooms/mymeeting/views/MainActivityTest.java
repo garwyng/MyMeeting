@@ -61,7 +61,7 @@ public class MainActivityTest {
         ViewInteraction frameLayout = onView(
                 allOf(withId(R.id.fragmentContainerView3),
                         withParent(allOf(withId(R.id.nestedScrollView), withContentDescription("meeting list"),
-                                withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class)))),
+                                withParent(IsInstanceOf.instanceOf(android.view.ViewGroup.class)))),
                         isDisplayed()));
         frameLayout.check(matches(isDisplayed()));
 
@@ -117,9 +117,9 @@ public class MainActivityTest {
         appCompatImageButton.perform(scrollTo(), click());
 
         ViewInteraction datePicker = onView(
-                allOf(IsInstanceOf.<View>instanceOf(android.widget.DatePicker.class),
+                allOf(IsInstanceOf.instanceOf(android.widget.DatePicker.class),
                         withParent(allOf(withId(android.R.id.custom),
-                                withParent(IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class)))),
+                                withParent(IsInstanceOf.instanceOf(android.widget.FrameLayout.class)))),
                         isDisplayed()));
         datePicker.perform(PickerActions.setDate(2023,8,1));
 
@@ -196,11 +196,11 @@ public class MainActivityTest {
         onView(withId(R.id.recyclerview_meetings_list)).check(RecyclerViewItemCountAssertion.withItemCount(4));
         onView(
                 allOf(withId(R.id.item_meeting_hour), withText("01/08/23"), withContentDescription("day for the meeting"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.ScrollView.class))),
+                        withParent(withParent(IsInstanceOf.instanceOf(android.widget.ScrollView.class))),
                         isDisplayed()));
         onView(
                 allOf(withId(R.id.item_meeting_hour), not(withText("01/08/23")), withContentDescription("day for the meeting"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.ScrollView.class))),
+                        withParent(withParent(IsInstanceOf.instanceOf(android.widget.ScrollView.class))),
                         not(isDisplayed())));
     }
     @Test
@@ -234,47 +234,47 @@ public class MainActivityTest {
         onView(withId(R.id.recyclerview_meetings_list)).check(RecyclerViewItemCountAssertion.withItemCount(4));
         onView(
                 allOf(withId(R.id.item_room_name), withText("Réunion 1"), withContentDescription("select a meeting room"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.ScrollView.class))),
+                        withParent(withParent(IsInstanceOf.instanceOf(android.widget.ScrollView.class))),
                         isDisplayed()));
         onView(
                 allOf(withId(R.id.item_room_name), withText("Réunion 2"), withContentDescription("select a meeting room"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.ScrollView.class))),
+                        withParent(withParent(IsInstanceOf.instanceOf(android.widget.ScrollView.class))),
                         not(isDisplayed())));
         onView(
                 allOf(withId(R.id.item_room_name), withText("Réunion 3"), withContentDescription("select a meeting room"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.ScrollView.class))),
+                        withParent(withParent(IsInstanceOf.instanceOf(android.widget.ScrollView.class))),
                         not(isDisplayed())));
         onView(
                 allOf(withId(R.id.item_room_name), withText("Réunion 4"), withContentDescription("select a meeting room"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.ScrollView.class))),
+                        withParent(withParent(IsInstanceOf.instanceOf(android.widget.ScrollView.class))),
                         not(isDisplayed())));
         onView(
                 allOf(withId(R.id.item_room_name), withText("Réunion 5"), withContentDescription("select a meeting room"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.ScrollView.class))),
+                        withParent(withParent(IsInstanceOf.instanceOf(android.widget.ScrollView.class))),
                         not(isDisplayed())));
         onView(
                 allOf(withId(R.id.item_room_name), withText("Réunion 6"), withContentDescription("select a meeting room"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.ScrollView.class))),
+                        withParent(withParent(IsInstanceOf.instanceOf(android.widget.ScrollView.class))),
                         not(isDisplayed())));
         onView(
                 allOf(withId(R.id.item_room_name), withText("Réunion 7"), withContentDescription("select a meeting room"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.ScrollView.class))),
+                        withParent(withParent(IsInstanceOf.instanceOf(android.widget.ScrollView.class))),
                         not(isDisplayed())));
         onView(
                 allOf(withId(R.id.item_room_name), withText("Réunion 8"), withContentDescription("select a meeting room"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.ScrollView.class))),
+                        withParent(withParent(IsInstanceOf.instanceOf(android.widget.ScrollView.class))),
                         not(isDisplayed())));
         onView(
                 allOf(withId(R.id.item_room_name), withText("Réunion 8"), withContentDescription("select a meeting room"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.ScrollView.class))),
+                        withParent(withParent(IsInstanceOf.instanceOf(android.widget.ScrollView.class))),
                         not(isDisplayed())));
         onView(
                 allOf(withId(R.id.item_room_name), withText("Réunion 9"), withContentDescription("select a meeting room"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.ScrollView.class))),
+                        withParent(withParent(IsInstanceOf.instanceOf(android.widget.ScrollView.class))),
                         not(isDisplayed())));
         onView(
                 allOf(withId(R.id.item_room_name), withText("Réunion 10"), withContentDescription("select a meeting room"),
-                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.ScrollView.class))),
+                        withParent(withParent(IsInstanceOf.instanceOf(android.widget.ScrollView.class))),
                         not(isDisplayed())));
     }
 

@@ -44,10 +44,23 @@ public class RoomListDialogFragment extends BottomSheetDialogFragment {
         return fragment;
     }
 
+    /**
+     * @param listener
+     */
     public void setOnRoomSelectedListener(OnRoomSelectedListener listener) {
         this.onRoomSelectedListener = listener;
     }
 
+    /**
+     * @param inflater           The LayoutInflater object that can be used to inflate
+     *                           any views in the fragment,
+     * @param container          If non-null, this is the parent view that the fragment's
+     *                           UI should be attached to.  The fragment should not add the view itself,
+     *                           but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     *                           from a previous saved state as given here.
+     * @return
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -58,6 +71,11 @@ public class RoomListDialogFragment extends BottomSheetDialogFragment {
 
     }
 
+    /**
+     * @param view               The View returned by {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)}.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     *                           from a previous saved state as given here.
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         final RecyclerView recyclerView = (RecyclerView) view;
@@ -72,6 +90,9 @@ public class RoomListDialogFragment extends BottomSheetDialogFragment {
     }
 
     public interface OnRoomSelectedListener {
+        /**
+         * @param roomSelected
+         */
         void sendRoomSelected(String roomSelected);
     }
 
@@ -79,6 +100,9 @@ public class RoomListDialogFragment extends BottomSheetDialogFragment {
 
         final TextView text;
 
+        /**
+         * @param binding
+         */
         ViewHolder(FragmentItemListDialogListDialogItemBinding binding) {
             super(binding.getRoot());
             text = binding.itemRoom;

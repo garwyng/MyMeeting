@@ -50,6 +50,16 @@ public class AddMeetingFragment extends Fragment implements RoomListDialogFragme
 
     private AlertDialog.Builder mBuilder;
 
+    /**
+     * @param inflater           The LayoutInflater object that can be used to inflate
+     *                           any views in the fragment,
+     * @param container          If non-null, this is the parent view that the fragment's
+     *                           UI should be attached to.  The fragment should not add the view itself,
+     *                           but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     *                           from a previous saved state as given here.
+     * @return
+     */
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -62,21 +72,41 @@ public class AddMeetingFragment extends Fragment implements RoomListDialogFragme
     }
 
 
+    /**
+     * @param view               The View returned by {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)}.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     *                           from a previous saved state as given here.
+     */
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mRecyclerView = binding.recyclerviewMail;
         binding.imageButtonAddMail.setEnabled(false);
         binding.editTextTextEmailAddress.addTextChangedListener(new TextWatcher() {
+            /**
+             * @param s
+             * @param start
+             * @param count
+             * @param after
+             */
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
 
+            /**
+             * @param s
+             * @param start
+             * @param before
+             * @param count
+             */
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
             }
 
+            /**
+             * @param s
+             */
             @Override
             public void afterTextChanged(Editable s) {
                 binding.imageButtonAddMail.setEnabled(!s.toString().isEmpty() && s.toString().contains("@"));
@@ -85,6 +115,9 @@ public class AddMeetingFragment extends Fragment implements RoomListDialogFragme
         binding.editTextDate.setOnClickListener(new View.OnClickListener() {
             private DatePickerDialog pickerDate;
 
+            /**
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 final Calendar cldr = Calendar.getInstance();
@@ -112,6 +145,9 @@ public class AddMeetingFragment extends Fragment implements RoomListDialogFragme
         });
 
         binding.buttonStart.setOnClickListener(new View.OnClickListener() {
+            /**
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 final Calendar cldr = Calendar.getInstance();
@@ -135,6 +171,9 @@ public class AddMeetingFragment extends Fragment implements RoomListDialogFragme
             }
         });
         binding.buttonStop.setOnClickListener(new View.OnClickListener() {
+            /**
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 final Calendar cldr = Calendar.getInstance();
@@ -143,6 +182,11 @@ public class AddMeetingFragment extends Fragment implements RoomListDialogFragme
                 // time picker dialog
                 picker = new TimePickerDialog(getContext(),
                         new TimePickerDialog.OnTimeSetListener() {
+                            /**
+                             * @param tp      the view associated with this listener
+                             * @param sHour   the hour that was set
+                             * @param sMinute the minute that was set
+                             */
                             @Override
                             public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
                                 dateEnd.set(Calendar.HOUR_OF_DAY, sHour);
@@ -179,6 +223,9 @@ public class AddMeetingFragment extends Fragment implements RoomListDialogFragme
             }
         });
         binding.buttonRoomSelect.setOnClickListener(new View.OnClickListener() {
+            /**
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 RoomListDialogFragment dialog = new RoomListDialogFragment();
@@ -188,12 +235,18 @@ public class AddMeetingFragment extends Fragment implements RoomListDialogFragme
             }
         });
         binding.EditSendMail.setOnClickListener(new View.OnClickListener() {
+            /**
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 subject = binding.EditSendMail.getText().toString();
             }
         });
         binding.imageButtonSendMail.setOnClickListener(new View.OnClickListener() {
+            /**
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 Meeting meetingToAdd = new Meeting(mMeetings.size(), subject, mListMails, room, dateStart.getTime(), dateEnd.getTime());
@@ -218,10 +271,16 @@ public class AddMeetingFragment extends Fragment implements RoomListDialogFragme
         binding = null;
     }
 
+    /**
+     * @param listMails
+     */
     public void initMailList(List<String> listMails) {
         mRecyclerView.setAdapter(new MailRecyclerViewAdapter(mListMails));
     }
 
+    /**
+     * @param event
+     */
     @Subscribe
     public void onFilterRoomEvent(FilterRoomEvent event) {
 

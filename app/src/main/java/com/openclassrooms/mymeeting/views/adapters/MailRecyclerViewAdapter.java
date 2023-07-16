@@ -16,6 +16,7 @@ public class MailRecyclerViewAdapter extends RecyclerView.Adapter<MailRecyclerVi
 
     private final List<String> mailsList;
 
+
     public MailRecyclerViewAdapter(List<String> mails) {
         mailsList = mails;
     }
@@ -28,12 +29,20 @@ public class MailRecyclerViewAdapter extends RecyclerView.Adapter<MailRecyclerVi
         return new ViewHolder(itemView);
     }
 
+    /**
+     * @param holder   The ViewHolder which should be updated to represent the contents of the
+     *                 item at the given position in the data set.
+     * @param position The position of the item within the adapter's data set.
+     */
     @Override
     public void onBindViewHolder(@NonNull MailRecyclerViewAdapter.ViewHolder holder, int position) {
         String mail = mailsList.get(position);
         holder.mTextViewMail.setText(mail);
     }
 
+    /**
+     * @return int size
+     */
     @Override
     public int getItemCount() {
         return mailsList.size();

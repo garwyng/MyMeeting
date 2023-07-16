@@ -81,14 +81,23 @@ abstract class MyMeetingApiGenerator {
         );
     }
 
+    /**
+     * @return list room's meeting
+     */
     public static List<String> getMeetingRooms() {
         return new ArrayList<>(MEETING_ROOMS);
     }
 
+    /**
+     * @return list of meetings
+     */
     public static List<Meeting> getMeetings() {
         return new ArrayList<Meeting>(MEETINGS_LIST);
     }
 
+    /**
+     * @return array of mail guest
+     */
     public static final List<String> getGuests() {
         return guests;
     }

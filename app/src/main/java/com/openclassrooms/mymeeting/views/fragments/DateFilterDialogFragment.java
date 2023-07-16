@@ -50,6 +50,10 @@ public class DateFilterDialogFragment extends BottomSheetDialogFragment {
         return fragment;
     }
 
+    /**
+     * @param savedInstanceState If the fragment is being re-created from
+     *                           a previous saved state, this is the state.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +61,16 @@ public class DateFilterDialogFragment extends BottomSheetDialogFragment {
         }
     }
 
+    /**
+     * @param inflater           The LayoutInflater object that can be used to inflate
+     *                           any views in the fragment,
+     * @param container          If non-null, this is the parent view that the fragment's
+     *                           UI should be attached to.  The fragment should not add the view itself,
+     *                           but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     *                           from a previous saved state as given here.
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -76,6 +90,9 @@ public class DateFilterDialogFragment extends BottomSheetDialogFragment {
         binding.buttonSelectDate.setOnClickListener(new View.OnClickListener() {
             private DatePickerDialog pickerDate;
 
+            /**
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
 
@@ -87,6 +104,14 @@ public class DateFilterDialogFragment extends BottomSheetDialogFragment {
                 // date picker dialog
                 pickerDate = new DatePickerDialog(getContext(),
                         new DatePickerDialog.OnDateSetListener() {
+                            /**
+                             * @param view        the picker associated with the dialog
+                             * @param year        the selected year
+                             * @param monthOfYear the selected month (0-11 for compatibility with
+                             *                    {@link Calendar#MONTH})
+                             * @param dayOfMonth  the selected day of the month (1-31, depending on
+                             *                    month)
+                             */
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
@@ -103,6 +128,9 @@ public class DateFilterDialogFragment extends BottomSheetDialogFragment {
             }
         });
         binding.buttonSelectTime.setOnClickListener(new View.OnClickListener() {
+            /**
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 final Calendar cldr = Calendar.getInstance(timeZone);
@@ -111,6 +139,11 @@ public class DateFilterDialogFragment extends BottomSheetDialogFragment {
                 // time picker dialog
                 picker = new TimePickerDialog(getContext(),
                         new TimePickerDialog.OnTimeSetListener() {
+                            /**
+                             * @param tp      the view associated with this listener
+                             * @param sHour   the hour that was set
+                             * @param sMinute the minute that was set
+                             */
                             @Override
                             public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
                                 calendarSearch.set(Calendar.HOUR_OF_DAY, sHour);
@@ -139,6 +172,9 @@ public class DateFilterDialogFragment extends BottomSheetDialogFragment {
             }
         });
         binding.buttonCancel.setOnClickListener(new View.OnClickListener() {
+            /**
+             * @param v The view that was clicked.
+             */
             @Override
             public void onClick(View v) {
                 dismiss();

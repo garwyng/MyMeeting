@@ -24,16 +24,25 @@ public class MyMeetingApiService implements MyMeetingApiServiceInterface {
         return sMyMeetingApiService;
     }
 
+    /**
+     * @return list meetings
+     */
     public List<Meeting> getMeetingsList() {
 
         return mMeetingsList;
     }
 
+    /**
+     * @return list rooms
+     */
     public List<String> getRooms() {
         return mRoomsList;
     }
 
 
+    /**
+     * @param meeting
+     */
     @Override
     public void deleteMeeting(Meeting meeting) {
         MyMeetingApiService.getInstance().getMeetingsList().remove(meeting);
@@ -56,6 +65,9 @@ public class MyMeetingApiService implements MyMeetingApiServiceInterface {
         return meetingOfTheDay;
     }
 
+    /**
+     * @param meetingToAdd
+     */
     public void addMeeting(Meeting meetingToAdd) {
         mMeetingsList.add(meetingToAdd);
     }

@@ -22,7 +22,7 @@ public class MyMeetingsRecyclerViewAdapter extends RecyclerView
         .Adapter<MyMeetingsRecyclerViewAdapter.ViewHolder> {
 
     static SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy HH:mm", Locale.FRANCE);
-    private List<Meeting> mMeetingList;
+    private final List<Meeting> mMeetingList;
     MyMeetingsRecyclerViewAdapter mMyMeetingsRecyclerViewAdapter;
 
     public MyMeetingsRecyclerViewAdapter getRecyclerViewAdapterInstance(){
@@ -43,6 +43,11 @@ public class MyMeetingsRecyclerViewAdapter extends RecyclerView
 
     }
 
+    /**
+     * @param holder   The ViewHolder which should be updated to represent the contents of the
+     *                 item at the given position in the data set.
+     * @param position The position of the item within the adapter's data set.
+     */
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Meeting meeting = mMeetingList.get(position);
@@ -59,6 +64,9 @@ public class MyMeetingsRecyclerViewAdapter extends RecyclerView
         });
     }
 
+    /**
+     * @return int size
+     */
     @Override
     public int getItemCount() {
         return mMeetingList.size();
@@ -73,6 +81,9 @@ public class MyMeetingsRecyclerViewAdapter extends RecyclerView
         public ImageView imageMeeting;
 
 
+        /**
+         * @param binding
+         */
         public ViewHolder(FragmentMeetingBinding binding) {
             super(binding.getRoot());
             meetingRoom = binding.itemRoomName;
