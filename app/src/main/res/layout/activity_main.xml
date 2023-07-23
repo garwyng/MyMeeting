@@ -11,6 +11,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:focusable="auto"
         android:theme="@style/Theme.MyMeeting.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
@@ -18,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
+            android:focusable="auto"
             app:popupTheme="@style/Theme.MyMeeting.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>

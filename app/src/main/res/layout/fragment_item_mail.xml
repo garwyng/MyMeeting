@@ -13,9 +13,12 @@
             android:layout_marginEnd="12dp"
             android:layout_marginBottom="12dp"
             android:background="#FAF0DD"
-            android:textSize="24sp"
             android:elevation="8dp"
-            android:hint="sebastien@lamazon.fr"
-            android:textAlignment="center" />
+            android:focusable="auto"
+            android:focusableInTouchMode="true"
+            android:hint="examples@lamazon.fr"
+            android:selectAllOnFocus="true"
+            android:textAlignment="center"
+            android:textSize="24sp" />
 
 </RelativeLayout>
