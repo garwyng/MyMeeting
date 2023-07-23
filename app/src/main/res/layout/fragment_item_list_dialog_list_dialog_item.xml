@@ -13,7 +13,6 @@
     android:elevation="8dp"
     android:ellipsize="marquee"
     android:focusable="auto"
-    android:focusableInTouchMode="true"
     android:textAlignment="center"
     android:textAppearance="@style/TextAppearance.AppCompat.Large"
     android:textStyle="italic"

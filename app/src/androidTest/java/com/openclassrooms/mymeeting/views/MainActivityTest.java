@@ -225,12 +225,25 @@ public class MainActivityTest {
                         isDisplayed()));
         materialTextView.perform(click());
 
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         ViewInteraction recyclerView = onView(
                 allOf(withId(R.id.list_room),
                         childAtPosition(
                                 withId(com.google.android.material.R.id.design_bottom_sheet),
                                 0)));
         recyclerView.perform(actionOnItemAtPosition(0, click()));
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         onView(withId(R.id.recyclerview_meetings_list)).check(RecyclerViewItemCountAssertion.withItemCount(4));
         onView(
                 allOf(withId(R.id.item_room_name), withText("Réunion 1"), withContentDescription("selection de la salle de réu"),
