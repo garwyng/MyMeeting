@@ -18,6 +18,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.openclassrooms.mymeeting.controler.MeetingRepository;
 import com.openclassrooms.mymeeting.controler.MyMeetingApiService;
 import com.openclassrooms.mymeeting.databinding.FragmentDateFilterBinding;
+import com.openclassrooms.mymeeting.di.DI;
 import com.openclassrooms.mymeeting.events.FilterMeetingEvent;
 import com.openclassrooms.mymeeting.utils.Utils;
 
@@ -33,8 +34,6 @@ import java.util.TimeZone;
  * create an instance of this fragment.
  */
 public class DateFilterDialogFragment extends BottomSheetDialogFragment {
-    static Bundle mBundle = new Bundle();
-    private final MyMeetingApiService service = MeetingRepository.getInstance();
     private Calendar calendarSearch;
     private FragmentDateFilterBinding binding;
     private final TimeZone timeZone = TimeZone.getDefault();
@@ -42,8 +41,12 @@ public class DateFilterDialogFragment extends BottomSheetDialogFragment {
     private Date dateSearch;
 
     public DateFilterDialogFragment() {
+        //show be Empty
     }
 
+    /**
+     * @return instance of DateFilterDialogFragment
+     */
     public static DateFilterDialogFragment newInstance() {
         DateFilterDialogFragment fragment = new DateFilterDialogFragment();
         Bundle args = new Bundle();
@@ -69,7 +72,7 @@ public class DateFilterDialogFragment extends BottomSheetDialogFragment {
      *                           but this can be used to generate the LayoutParams of the view.
      * @param savedInstanceState If non-null, this fragment is being re-constructed
      *                           from a previous saved state as given here.
-     * @return
+     * @return view binding
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

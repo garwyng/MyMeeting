@@ -6,37 +6,32 @@ import java.util.Date;
 import java.util.List;
 
 public class MeetingRepository {
-    private final MyMeetingApiService mApiService;
+    MyMeetingApiService mApiService;
 
-    public static MyMeetingApiService getInstance(){
-        return MyMeetingApiService.getInstance();
+    public MeetingRepository(MyMeetingApiService myMeetingApiService) {
+        this.mApiService = myMeetingApiService;
     }
 
-
-    private MeetingRepository(MyMeetingApiService apiService) {
-        mApiService = apiService;
-    }
-
-    private List<Meeting> getMeetingsList(){
+    public List<Meeting> getMeetingsList(){
         return mApiService.getMeetingsList();
     }
 
-    private List<String> getRooms() {
+    public List<String> getRooms() {
         return mApiService.getRooms();
     }
 
-    private void deleteMeeting(Meeting meeting) {
+    public void deleteMeeting(Meeting meeting) {
         mApiService.deleteMeeting(meeting);
     }
 
-    private List<Meeting> dateFilter(Date date) {
+    public List<Meeting> dateFilter(Date date) {
         return mApiService.dateFilter(date);
     }
-    private void addMeeting(Meeting meetingToAdd) {
+    public void addMeeting(Meeting meetingToAdd) {
         mApiService.addMeeting(meetingToAdd);
     }
 
-    private List<Meeting> roomFilter(String room) {
+    public List<Meeting> roomFilter(String room) {
         return mApiService.roomFilter(room);
     }
 }

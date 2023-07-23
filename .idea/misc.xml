@@ -1,9 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavadocGenerationManager">
-    <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/../../../../OpenClassRoom/Projet/P4" />
+    <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/../Créez_une_application_de_gestion_de_réunions_Cusset_Sebastien_062023/Cusset_Sebastien_4_documentation_062023" />
+    <option name="OPTION_SCOPE" value="private" />
+    <option name="OTHER_OPTIONS" value="--source-path 'C:\sdk\platforms\android-33\android.jar'" />
+    <option name="OPTION_INCLUDE_LIBS" value="true" />
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

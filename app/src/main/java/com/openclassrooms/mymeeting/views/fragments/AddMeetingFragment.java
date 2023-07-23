@@ -24,6 +24,7 @@ import com.openclassrooms.mymeeting.R;
 import com.openclassrooms.mymeeting.controler.MeetingRepository;
 import com.openclassrooms.mymeeting.controler.MyMeetingApiService;
 import com.openclassrooms.mymeeting.databinding.FragmentAddMeetingBinding;
+import com.openclassrooms.mymeeting.di.DI;
 import com.openclassrooms.mymeeting.events.FilterRoomEvent;
 import com.openclassrooms.mymeeting.models.Meeting;
 import com.openclassrooms.mymeeting.views.adapters.MailRecyclerViewAdapter;
@@ -34,6 +35,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ * Fragment to create a new meeting
+ */
+
 public class AddMeetingFragment extends Fragment implements RoomListDialogFragment.OnRoomSelectedListener {
 
     private final List<String> mListMails = new ArrayList<>();
@@ -43,8 +48,8 @@ public class AddMeetingFragment extends Fragment implements RoomListDialogFragme
     private Calendar dateStart;
     private Calendar dateEnd;
     private String room;
-    private final MyMeetingApiService service = MeetingRepository.getInstance();
-    private final List<Meeting> mMeetings = service.getMeetingsList();
+    private final MeetingRepository mMeetingRepository = DI.getMeetingRepository();
+    private final List<Meeting> mMeetings = mMeetingRepository.getMeetingsList();
     private String subject;
     private RoomListDialogFragment.OnRoomSelectedListener mOnRoomSelectedListener;
 
@@ -58,7 +63,7 @@ public class AddMeetingFragment extends Fragment implements RoomListDialogFragme
      *                           but this can be used to generate the LayoutParams of the view.
      * @param savedInstanceState If non-null, this fragment is being re-constructed
      *                           from a previous saved state as given here.
-     * @return
+     * @return view binding
      */
     @Override
     public View onCreateView(
@@ -250,12 +255,12 @@ public class AddMeetingFragment extends Fragment implements RoomListDialogFragme
             @Override
             public void onClick(View v) {
                 Meeting meetingToAdd = new Meeting(mMeetings.size(), subject, mListMails, room, dateStart.getTime(), dateEnd.getTime());
-                boolean checkMeetingNotExist = service.getMeetingsList().contains(meetingToAdd);
+                boolean checkMeetingNotExist = mMeetingRepository.getMeetingsList().contains(meetingToAdd);
                 if (checkMeetingNotExist) {
                     Toast.makeText(getContext(), "Meeting already exist", Toast.LENGTH_LONG).show();
                 } else {
 
-                    service.getMeetingsList().add(meetingToAdd);
+                    mMeetingRepository.getMeetingsList().add(meetingToAdd);
                     NavHostFragment.findNavController(AddMeetingFragment.this)
                             .navigate(R.id.action_AddMeetingFragment_to_HomeFragment);
 
@@ -272,6 +277,7 @@ public class AddMeetingFragment extends Fragment implements RoomListDialogFragme
     }
 
     /**
+     * list of mail address set by user
      * @param listMails
      */
     public void initMailList(List<String> listMails) {
@@ -279,6 +285,7 @@ public class AddMeetingFragment extends Fragment implements RoomListDialogFragme
     }
 
     /**
+     * listen room selected
      * @param event
      */
     @Subscribe

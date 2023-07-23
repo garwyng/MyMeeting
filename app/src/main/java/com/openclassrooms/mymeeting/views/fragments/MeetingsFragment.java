@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.openclassrooms.mymeeting.R;
 import com.openclassrooms.mymeeting.controler.MeetingRepository;
 import com.openclassrooms.mymeeting.controler.MyMeetingApiService;
+import com.openclassrooms.mymeeting.di.DI;
 import com.openclassrooms.mymeeting.events.DeleteMeetingEvent;
 import com.openclassrooms.mymeeting.events.FilterMeetingEvent;
 import com.openclassrooms.mymeeting.events.FilterRoomEvent;
@@ -29,7 +30,7 @@ import java.util.List;
  */
 public class MeetingsFragment extends Fragment {
 
-    private final MyMeetingApiService service = MeetingRepository.getInstance();
+    private MeetingRepository mMeetingRepository = DI.getMeetingRepository();
     List<Meeting> meetingsList;
     private RecyclerView mRecyclerView;
     private static MeetingsFragment mMeetingsFragment;
@@ -74,7 +75,7 @@ public class MeetingsFragment extends Fragment {
      *                           but this can be used to generate the LayoutParams of the view.
      * @param savedInstanceState If non-null, this fragment is being re-constructed
      *                           from a previous saved state as given here.
-     * @return
+     * @return view
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -88,7 +89,7 @@ public class MeetingsFragment extends Fragment {
     }
 
     private void initMeetingsList() {
-        meetingsList = service.getMeetingsList();
+        meetingsList = mMeetingRepository.getMeetingsList();
         mRecyclerView.setAdapter(new MyMeetingsRecyclerViewAdapter(meetingsList));
     }
 
@@ -115,7 +116,7 @@ public class MeetingsFragment extends Fragment {
      */
     @Subscribe
     public void onDeleteMeeting(DeleteMeetingEvent event) {
-        service.deleteMeeting(event.meeting);
+        mMeetingRepository.deleteMeeting(event.meeting);
         initMeetingsList();
     }
 
@@ -125,7 +126,7 @@ public class MeetingsFragment extends Fragment {
     @Subscribe
     public void onFilterByDate(FilterMeetingEvent event) {
 
-        meetingsList = service.dateFilter(event.dateSearch);
+        meetingsList = mMeetingRepository.dateFilter(event.dateSearch);
         mRecyclerView.setAdapter(new MyMeetingsRecyclerViewAdapter(meetingsList));
     }
 
@@ -135,7 +136,7 @@ public class MeetingsFragment extends Fragment {
     @Subscribe
     public void onFilterByRoom(FilterRoomEvent event) {
 
-        meetingsList = service.roomFilter(event.roomSelected);
+        meetingsList = mMeetingRepository.roomFilter(event.roomSelected);
         mRecyclerView.setAdapter(new MyMeetingsRecyclerViewAdapter(meetingsList));
     }
 }

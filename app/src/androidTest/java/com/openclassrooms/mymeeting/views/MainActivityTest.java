@@ -54,13 +54,13 @@ public class MainActivityTest {
     @Test
     public void MyMeetingIsLaunchedTest() {
         onView(allOf(instanceOf(TextView.class), withParent(withId(R.id.toolbar))))
-                .check(matches(withText("MyMeeting")));
+                .check(matches(withText("MaRéu")));
     }
     @Test
     public void recyclerViewNotEmpty() {
         ViewInteraction frameLayout = onView(
                 allOf(withId(R.id.fragmentContainerView3),
-                        withParent(allOf(withId(R.id.nestedScrollView), withContentDescription("meeting list"),
+                        withParent(allOf(withId(R.id.nestedScrollView), withContentDescription("liste de réu"),
                                 withParent(IsInstanceOf.instanceOf(android.view.ViewGroup.class)))),
                         isDisplayed()));
         frameLayout.check(matches(isDisplayed()));
@@ -68,7 +68,7 @@ public class MainActivityTest {
         ViewInteraction recyclerView = onView(
                 allOf(withId(R.id.recyclerview_meetings_list),
                         withParent(allOf(withId(R.id.fragmentContainerView3),
-                                withParent(allOf(withId(R.id.nestedScrollView), withContentDescription("meeting list"))))),
+                                withParent(allOf(withId(R.id.nestedScrollView), withContentDescription("liste de réu"))))),
                         isDisplayed()));
         recyclerView.check(matches(isDisplayed()));
 
@@ -87,7 +87,7 @@ public class MainActivityTest {
         overflowMenuButton.perform(click());
 
         ViewInteraction materialTextView = onView(
-                allOf(withId(androidx.core.R.id.title), withText("Date Filter"),
+                allOf(withId(androidx.core.R.id.title), withText("filtré par date"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(com.google.android.material.R.id.content),
@@ -97,7 +97,7 @@ public class MainActivityTest {
         materialTextView.perform(click());
 
         ViewInteraction materialButtonDate = onView(
-                allOf(withId(R.id.button_select_date), withText("select a date"),
+                allOf(withId(R.id.button_select_date), withText("selectionné une date"),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.FrameLayout")),
@@ -133,7 +133,7 @@ public class MainActivityTest {
         materialButton2.perform(scrollTo(), click());
 
         ViewInteraction materialButton = onView(
-                allOf(withId(R.id.button_select_time), withText("select an hour"),
+                allOf(withId(R.id.button_select_time), withText("selectionné une heure"),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.FrameLayout")),
@@ -216,7 +216,7 @@ public class MainActivityTest {
         overflowMenuButton.perform(click());
 
         ViewInteraction materialTextView = onView(
-                allOf(withId(androidx.core.R.id.title), withText("Room Filter"),
+                allOf(withId(androidx.core.R.id.title), withText("filtré par salle"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(com.google.android.material.R.id.content),
@@ -233,47 +233,47 @@ public class MainActivityTest {
         recyclerView.perform(actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recyclerview_meetings_list)).check(RecyclerViewItemCountAssertion.withItemCount(4));
         onView(
-                allOf(withId(R.id.item_room_name), withText("Réunion 1"), withContentDescription("select a meeting room"),
+                allOf(withId(R.id.item_room_name), withText("Réunion 1"), withContentDescription("selection de la salle de réu"),
                         withParent(withParent(IsInstanceOf.instanceOf(android.widget.ScrollView.class))),
                         isDisplayed()));
         onView(
-                allOf(withId(R.id.item_room_name), withText("Réunion 2"), withContentDescription("select a meeting room"),
+                allOf(withId(R.id.item_room_name), withText("Réunion 2"), withContentDescription("selection de la salle de réu"),
                         withParent(withParent(IsInstanceOf.instanceOf(android.widget.ScrollView.class))),
                         not(isDisplayed())));
         onView(
-                allOf(withId(R.id.item_room_name), withText("Réunion 3"), withContentDescription("select a meeting room"),
+                allOf(withId(R.id.item_room_name), withText("Réunion 3"), withContentDescription("selection de la salle de réu"),
                         withParent(withParent(IsInstanceOf.instanceOf(android.widget.ScrollView.class))),
                         not(isDisplayed())));
         onView(
-                allOf(withId(R.id.item_room_name), withText("Réunion 4"), withContentDescription("select a meeting room"),
+                allOf(withId(R.id.item_room_name), withText("Réunion 4"), withContentDescription("selection de la salle de réu"),
                         withParent(withParent(IsInstanceOf.instanceOf(android.widget.ScrollView.class))),
                         not(isDisplayed())));
         onView(
-                allOf(withId(R.id.item_room_name), withText("Réunion 5"), withContentDescription("select a meeting room"),
+                allOf(withId(R.id.item_room_name), withText("Réunion 5"), withContentDescription("selection de la salle de réu"),
                         withParent(withParent(IsInstanceOf.instanceOf(android.widget.ScrollView.class))),
                         not(isDisplayed())));
         onView(
-                allOf(withId(R.id.item_room_name), withText("Réunion 6"), withContentDescription("select a meeting room"),
+                allOf(withId(R.id.item_room_name), withText("Réunion 6"), withContentDescription("selection de la salle de réu"),
                         withParent(withParent(IsInstanceOf.instanceOf(android.widget.ScrollView.class))),
                         not(isDisplayed())));
         onView(
-                allOf(withId(R.id.item_room_name), withText("Réunion 7"), withContentDescription("select a meeting room"),
+                allOf(withId(R.id.item_room_name), withText("Réunion 7"), withContentDescription("selection de la salle de réu"),
                         withParent(withParent(IsInstanceOf.instanceOf(android.widget.ScrollView.class))),
                         not(isDisplayed())));
         onView(
-                allOf(withId(R.id.item_room_name), withText("Réunion 8"), withContentDescription("select a meeting room"),
+                allOf(withId(R.id.item_room_name), withText("Réunion 8"), withContentDescription("selection de la salle de réu"),
                         withParent(withParent(IsInstanceOf.instanceOf(android.widget.ScrollView.class))),
                         not(isDisplayed())));
         onView(
-                allOf(withId(R.id.item_room_name), withText("Réunion 8"), withContentDescription("select a meeting room"),
+                allOf(withId(R.id.item_room_name), withText("Réunion 8"), withContentDescription("selection de la salle de réu"),
                         withParent(withParent(IsInstanceOf.instanceOf(android.widget.ScrollView.class))),
                         not(isDisplayed())));
         onView(
-                allOf(withId(R.id.item_room_name), withText("Réunion 9"), withContentDescription("select a meeting room"),
+                allOf(withId(R.id.item_room_name), withText("Réunion 9"), withContentDescription("selection de la salle de réu"),
                         withParent(withParent(IsInstanceOf.instanceOf(android.widget.ScrollView.class))),
                         not(isDisplayed())));
         onView(
-                allOf(withId(R.id.item_room_name), withText("Réunion 10"), withContentDescription("select a meeting room"),
+                allOf(withId(R.id.item_room_name), withText("Réunion 10"), withContentDescription("selection de la salle de réu"),
                         withParent(withParent(IsInstanceOf.instanceOf(android.widget.ScrollView.class))),
                         not(isDisplayed())));
     }

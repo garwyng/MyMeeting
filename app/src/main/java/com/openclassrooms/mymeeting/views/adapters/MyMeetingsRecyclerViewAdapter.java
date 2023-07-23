@@ -80,10 +80,6 @@ public class MyMeetingsRecyclerViewAdapter extends RecyclerView
         public final ImageView imageDeleteMeeting;
         public ImageView imageMeeting;
 
-
-        /**
-         * @param binding
-         */
         public ViewHolder(FragmentMeetingBinding binding) {
             super(binding.getRoot());
             meetingRoom = binding.itemRoomName;

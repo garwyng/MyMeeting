@@ -16,6 +16,7 @@ import com.openclassrooms.mymeeting.controler.MeetingRepository;
 import com.openclassrooms.mymeeting.controler.MyMeetingApiService;
 import com.openclassrooms.mymeeting.databinding.FragmentItemListDialogListDialogBinding;
 import com.openclassrooms.mymeeting.databinding.FragmentItemListDialogListDialogItemBinding;
+import com.openclassrooms.mymeeting.di.DI;
 import com.openclassrooms.mymeeting.events.FilterRoomEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -32,8 +33,8 @@ import java.util.List;
 public class RoomListDialogFragment extends BottomSheetDialogFragment {
 
     public String roomSelected;
-    MyMeetingApiService mApiService = MeetingRepository.getInstance();
-    List<String> roomsList = mApiService.getRooms();
+    MeetingRepository mMeetingRepository = DI.getMeetingRepository();
+    List<String> roomsList = mMeetingRepository.getRooms();
     Bundle bundle = new Bundle();
     private FragmentItemListDialogListDialogBinding binding;
     private OnRoomSelectedListener onRoomSelectedListener;
@@ -91,6 +92,7 @@ public class RoomListDialogFragment extends BottomSheetDialogFragment {
 
     public interface OnRoomSelectedListener {
         /**
+         * room selected by user
          * @param roomSelected
          */
         void sendRoomSelected(String roomSelected);
@@ -100,9 +102,6 @@ public class RoomListDialogFragment extends BottomSheetDialogFragment {
 
         final TextView text;
 
-        /**
-         * @param binding
-         */
         ViewHolder(FragmentItemListDialogListDialogItemBinding binding) {
             super(binding.getRoot());
             text = binding.itemRoom;

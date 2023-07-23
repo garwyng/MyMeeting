@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MaRéu</string>
+    <string name="action_settings">Filtres</string>
+    <string name="first_fragment_label">Accueil</string>
+    <string name="second_fragment_label">CréationRéu</string>
+    <string name="next">Suivant</string>
+    <string name="previous">Précédent</string>
+    <string name="delete_meeting">"supprimé une réu "</string>
+    <string name="image_meeting">image salle réu</string>
+    <string name="meeting_list">liste de réu</string>
+    <string name="add_new_meeting">ajouté une nouvelle réu</string>
+    <string name="send_invitation">envoyé la réu</string>
+    <string name="select_room">selection de la salle de réu</string>
+    <string name="add_an_email">ajouté un invité pour la réu</string>
+    <string name="write_an_email">saisir une adresse mail</string>
+    <string name="delete_mail">supprimé une adresse mail</string>
+    <string name="Day_for_the_meeting">jour pour la réu</string>
+    <string name="choose_a_date">choisir une date</string>
+    <string name="set_hours_for_the_meeting">choisir une heure</string>
+    <string name="start">heure de début</string>
+    <string name="stop">heure de fin</string>
+    <string name="enter_a_subject_for_the_meeting">sujet de la réu</string>
+    <string name="date_filter">filtré par date</string>
+    <string name="room_filter">filtré par salle</string>
+    <string name="all">tous affiché</string>
+    <string name="show_all">tous affiché</string>
+    <string name="select_date">selectionné une date</string>
+    <string name="select_time">selectionné une heure</string>
+    <string name="date_selected">date selectionné</string>
+    <string name="hour_selected">heure selectionné</string>
+</resources>

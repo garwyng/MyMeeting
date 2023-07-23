@@ -17,6 +17,7 @@ import com.openclassrooms.mymeeting.R;
 import com.openclassrooms.mymeeting.controler.MeetingRepository;
 import com.openclassrooms.mymeeting.controler.MyMeetingApiService;
 import com.openclassrooms.mymeeting.databinding.ActivityMainBinding;
+import com.openclassrooms.mymeeting.di.DI;
 import com.openclassrooms.mymeeting.models.Meeting;
 import com.openclassrooms.mymeeting.views.fragments.DateFilterDialogFragment;
 import com.openclassrooms.mymeeting.views.fragments.MeetingsFragment;
@@ -39,9 +40,9 @@ public class MainActivity extends AppCompatActivity implements Parcelable {
     };
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
-    private final MyMeetingApiService service = MeetingRepository.getInstance();
+    private MeetingRepository mMeetingRepository = DI.getMeetingRepository();
     private String room;
-    private List<Meeting> mMeetingList = service.getMeetingsList();
+    private List<Meeting> mMeetingList = mMeetingRepository.getMeetingsList();
 
     public MainActivity() {
 
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements Parcelable {
 
         switch (item.getItemId()) {
             case R.id.action_date_filter:
-                DateFilterDialogFragment dialog = new DateFilterDialogFragment();
+                DateFilterDialogFragment dialog = DateFilterDialogFragment.newInstance();
                 dialog.show(getSupportFragmentManager(), "dialog");
                 //
                 return true;

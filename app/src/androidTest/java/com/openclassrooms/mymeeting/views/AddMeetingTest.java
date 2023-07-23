@@ -58,7 +58,7 @@ public class AddMeetingTest {
     @Test
     public void mainActivityTest3() {
         ViewInteraction floatingActionButtonAddMeeting = onView(
-                allOf(withId(R.id.floating_button_AddMeeting), withContentDescription("add new meeting"),
+                allOf(withId(R.id.floating_button_AddMeeting), withContentDescription("ajouté une nouvelle réu"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.nav_host_fragment_content_main),
@@ -68,14 +68,14 @@ public class AddMeetingTest {
         floatingActionButtonAddMeeting.perform(click());
 
         ViewInteraction textView = onView(
-                allOf(withText("add new meeting"),
+                allOf(withText("ajouté une nouvelle réu"),
                         withParent(allOf(withId(R.id.toolbar),
                                 withParent(IsInstanceOf.instanceOf(android.widget.LinearLayout.class)))),
                         isDisplayed()));
-        textView.check(matches(withText("add new meeting")));
+        textView.check(matches(withText("ajouté une nouvelle réu")));
 
         ViewInteraction appCompatEditText = onView(
-                allOf(withId(R.id.editTextDate), withText("Choose a date"),
+                allOf(withId(R.id.editTextDate), withText("choisir une date"),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.LinearLayout")),
@@ -126,7 +126,7 @@ public class AddMeetingTest {
         textView2.check(matches(withText("7/9/2023")));
 
         ViewInteraction materialButton2 = onView(
-                allOf(withId(R.id.button_start), withText("start"),
+                allOf(withId(R.id.button_start), withText("heure de début"),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.LinearLayout")),
@@ -185,7 +185,7 @@ public class AddMeetingTest {
         appCompatEditText4.perform(scrollTo(), replaceText("seb@lamazone.fr"), closeSoftKeyboard());
 
         ViewInteraction appCompatImageButton4 = onView(
-                allOf(withId(R.id.imageButtonAddMail), withContentDescription("add a contact mail"),
+                allOf(withId(R.id.imageButtonAddMail), withContentDescription("ajouté un invité pour la réu"),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.LinearLayout")),
@@ -194,7 +194,7 @@ public class AddMeetingTest {
         appCompatImageButton4.perform(scrollTo(), click());
 
         ViewInteraction materialButton4 = onView(
-                allOf(withId(R.id.button_room_select), withText("select a meeting room"),
+                allOf(withId(R.id.button_room_select),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.LinearLayout")),
@@ -228,7 +228,7 @@ public class AddMeetingTest {
         appCompatEditText6.perform(pressImeActionButton());
 
         ViewInteraction appCompatImageButton5 = onView(
-                allOf(withId(R.id.imageButtonSendMail), withContentDescription("send invitation"),
+                allOf(withId(R.id.imageButtonSendMail), withContentDescription("envoyé la réu"),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.LinearLayout")),
