@@ -32,6 +32,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
 import com.openclassrooms.mymeeting.R;
+import com.openclassrooms.mymeeting.di.DI;
+import com.openclassrooms.mymeeting.models.Meeting;
 import com.openclassrooms.mymeeting.views.utils.DeleteViewAction;
 import com.openclassrooms.mymeeting.views.utils.RecyclerViewItemCountAssertion;
 
@@ -39,6 +41,7 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -294,12 +297,14 @@ public class MainActivityTest {
     @Test
     public void myMeetingList_deleteAction_shouldRemoveItem(){
         int startSize =15;
+        Meeting meetingToDelete = DI.getMeetingRepository().getMeetingsList().get(3);
         onView(allOf(withId(R.id.recyclerview_meetings_list),
                 isDisplayed()))
                 .check(RecyclerViewItemCountAssertion.withItemCount(startSize));
         onView(allOf(withId(R.id.recyclerview_meetings_list),isDisplayed()))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(3,new DeleteViewAction()));
         onView(allOf(withId(R.id.recyclerview_meetings_list),isDisplayed())).check(RecyclerViewItemCountAssertion.withItemCount(startSize-1));
+        Assert.assertFalse(DI.getMeetingRepository().getMeetingsList().contains(meetingToDelete));
     }
 
 

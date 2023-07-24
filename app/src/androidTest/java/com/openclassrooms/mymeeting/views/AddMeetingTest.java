@@ -237,6 +237,7 @@ public class AddMeetingTest {
         appCompatImageButton5.perform(scrollTo(), click());
 
         onView(withId(R.id.recyclerview_meetings_list)).check(RecyclerViewItemCountAssertion.withItemCount(1));
+
     }
 
     private static Matcher<View> childAtPosition(
